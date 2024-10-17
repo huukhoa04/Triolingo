@@ -1,3 +1,5 @@
+import { StyleSheet } from "react-native";
+
 export const Root = {
     primaryTheme:{
         bgColor: '#1F3F46',
@@ -24,4 +26,21 @@ export const Root = {
         large: 20,
     },
     placeholderColor: '#BCBCBC',
+
+    flex: StyleSheet.create({
+        row: {
+            display: 'flex',
+            flexDirection: 'row',
+            columnGap: 20,
+        },
+        column: {
+            display: 'flex',
+            flexDirection: 'column',
+            rowGap: 20,
+        },
+        center: {
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+    }),
 }
