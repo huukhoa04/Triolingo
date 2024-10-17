@@ -1,7 +1,11 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
-
+import { View, TextInput, Button, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { ButtonStyle } from '@/constants/ButtonTheme';
+import { Root } from '@/constants/root.css';
+import { Assets } from '@/constants/Assets';
+import CustomBtn from '@/components/CustomBtn';
+import { InputStyle } from '@/constants/Input';
 export default function Signup() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -18,65 +22,84 @@ export default function Signup() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.label}>Username</Text>
+            <Image style={Assets.logocss.align} source={Assets.logo}/>
+            <Text style={InputStyle.title}>Sign Up</Text>
             <TextInput
-                style={styles.input}
+                style={InputStyle.textField}
                 value={username}
                 onChangeText={setUsername}
-                placeholder="Enter your username"
+                placeholder="Username"
+                placeholderTextColor={Root.placeholderColor}
             />
-            <Text style={styles.label}>Email</Text>
+            
             <TextInput
-                style={styles.input}
+                style={InputStyle.textField}
                 value={email}
                 onChangeText={setEmail}
-                placeholder="Enter your email"
+                placeholder="Email"
                 keyboardType="email-address"
+                placeholderTextColor={Root.placeholderColor}
             />
-            <Text style={styles.label}>Password</Text>
+           
             <TextInput
-                style={styles.input}
+                style={InputStyle.textField}
                 value={password}
                 onChangeText={setPassword}
-                placeholder="Enter your password"
+                placeholder="Password"
                 secureTextEntry
+                placeholderTextColor={Root.placeholderColor}
             />
-            <Text style={styles.label}>Confirm Password</Text>
+            
             <TextInput
-                style={styles.input}
+                style={InputStyle.textField}
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
-                placeholder="Confirm your password"
+                placeholder="Confirm password"
                 secureTextEntry
+                placeholderTextColor={Root.placeholderColor}
             />
-            <Button title="Sign Up" onPress={handleSignup} />
-            <Button
-                title="Don't have an account? Sign Up"
-                onPress={() => {
-                    // Navigate to the Sign Up page
-                    router.push({
-                        pathname: './login',
-                    });
-                }}
-            />
+            
+            <CustomBtn type='purple' title='Sign Up' onPress={handleSignup}/>
+
+
+            <CustomBtn type='linktype' title="Already have an account? Login" onPress={() => {
+                // Navigate to the Login page
+                router.push({
+                    pathname: './login',
+                });
+            }}/>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
+        backgroundColor: Root.primaryTheme.bgColor,
         flex: 1,
         justifyContent: 'center',
+        rowGap: 10,
         padding: 16,
     },
+    title: {
+        fontFamily: Root.fontStyle.semibold,
+        color: '#fff',
+        fontSize: 24,
+        marginBottom: 16,
+        textAlign: 'center',
+    },
     input: {
+        fontFamily: Root.fontStyle.regular,
         height: 40,
-        borderColor: 'gray',
+        borderColor: '#fff',
+        color: '#fff',
         borderWidth: 1,
         marginBottom: 12,
+        borderRadius: 4,
         paddingHorizontal: 8,
     },
     label: {
+        fontFamily: Root.fontStyle.semibold,
+        color: '#fff',
         marginBottom: 4,
     },
 });
