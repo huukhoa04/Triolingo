@@ -21,9 +21,6 @@ export default function RootLayout() {
   const noHeader: any = {
     headerShown: false
   }
-  const withHeader: any = {
-    
-  }
 
   const [loaded, error] = useFonts({
     LeagueSpartan_100Thin,

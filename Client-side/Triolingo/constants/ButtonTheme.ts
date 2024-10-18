@@ -7,7 +7,7 @@ const ButtonTheme = {
         blue: '#105CC0',
         bluePressed: '#108BC0',
 
-        green: '#47BE0F',
+        green: '#338B0A',
         greenPressed: '#338B0A',
 
         red: '#FF0D11',
@@ -33,39 +33,47 @@ export const ButtonStyle = StyleSheet.create({
         textDecorationLine: 'underline',
     },
     blue: {
-        minWidth: 185,
+        // minWidth: 185,
+        minHeight: 35,
         alignSelf: 'center',
+        textAlign: 'center',
         backgroundColor: ButtonTheme.color.blue,
         paddingHorizontal: 16,
-        paddingVertical: 10,
+        paddingVertical: 5,
         borderRadius: 4,
     },
     red: {
-        minWidth: 185,
+        // minWidth: 185,
+        minHeight: 35,
         alignSelf: 'center',
+        textAlign: 'center',
         backgroundColor: ButtonTheme.color.red,
         paddingHorizontal: 16,
-        paddingVertical: 10,
+        paddingVertical: 5,
         borderRadius: 4,
         
 
     },
     green: {
-        minWidth: 185,
+        // minWidth: 185,
+        minHeight: 35,
         alignSelf: 'center',
+        textAlign: 'center',
         backgroundColor: ButtonTheme.color.green,
         paddingHorizontal: 16,
-        paddingVertical: 10,
+        paddingVertical: 5,
         borderRadius: 4,
         
 
     },
     purple: {
-        minWidth: 185,
+        // minWidth: 185,
+        minHeight: 35,
         alignSelf: 'center',
+        textAlign: 'center',
         backgroundColor: ButtonTheme.color.purple,
         paddingHorizontal: 16,
-        paddingVertical: 10,
+        paddingVertical: 5,
         borderRadius: 4,
     }
 });
