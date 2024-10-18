@@ -1,18 +1,29 @@
-import { Pressable, StyleSheet, View } from "react-native";
+import { Assets } from "@/constants/Assets";
+import { ButtonStyle } from "@/constants/ButtonTheme";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Pressable, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 
-export default function IconBtn() {
+export default function IconBtn(props: any) {
     return (
-        <Pressable style={styles.container}>
+        <TouchableOpacity style={props.style} onPress={props.onPress}>
             <View>
-                {/* Icon */}
+                <FontAwesome name={props.name} size={25} color="white" style={{
+                    alignSelf: "center",
+                }}/>
             </View>
-        </Pressable>
+        </TouchableOpacity>
     );
 }
 const styles = StyleSheet.create({
     container: {
         // Add your styles here
-        backgroundColor: 'transparent',
+        position: "static",
+        backgroundColor: ButtonStyle.green.backgroundColor,
+        padding: 16,
+        borderRadius: 25,
+        width: 50,
+        height: 50,
+        shadowColor: "0px 4px 4px rgba(0, 0, 0, 0.25)",
     },
     text: {
         // Add your styles here
