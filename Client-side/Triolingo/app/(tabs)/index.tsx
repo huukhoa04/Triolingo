@@ -3,20 +3,49 @@ import IconBtn from '@/components/IconBtn';
 import { ButtonStyle } from '@/constants/ButtonTheme';
 import { Root } from '@/constants/root.css';
 import { useRouter } from 'expo-router';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 export default function Tab() {
   const router = useRouter();
+  const params1 = {
+    title: 'simple card',
+    flag: 'jp',
+    description: 'This is a simple card for testing purposes. It is used to test the CourseCard component.',
+    dateAttended: '2021-10-10',
+    timeLearned: 15,
+    corrected: 15,
+    total: 30,
+  }
   return (
-    <View style={styles.container}>
+    <>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.label}>In progress</Text>
-      <CourseCard part={1} all={30} title={'simple card'} flag={'jp'}
+      <CourseCard part={15} all={30} title={'simple card'} flag={'jp'}
+                onPress={() => {
+                    router.push({
+                      pathname: './attendedcourse',
+                      params: params1,
+                    });
+                }} 
+      />
+      
+      <Text style={styles.label}>Done</Text>
+      <CourseCard part={30} all={30} title={'simple card'} flag={'jp'}
                 onPress={() => {
 
                 }} 
       />
-      <Text style={styles.label}>In progress</Text>
-      <IconBtn name={'plus'} style={{
+      
+
+
+
+
+
+
+
+      
+    </ScrollView>
+    <IconBtn name={'plus'} style={{
         position: "absolute",
         display: "flex",
         // alignItems: "center",
@@ -37,13 +66,12 @@ export default function Tab() {
         }}
       
       />
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'column',
     flexBasis: 'auto',
     alignItems: 'flex-start',
