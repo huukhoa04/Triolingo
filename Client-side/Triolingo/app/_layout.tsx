@@ -14,13 +14,16 @@ import {
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from "react";
 import Login from "./login";
+import { Root } from "@/constants/root.css";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const noHeader = {
+  const noHeader: any = {
     headerShown: false
   }
-
+  const withHeader: any = {
+    
+  }
 
   const [loaded, error] = useFonts({
     LeagueSpartan_100Thin,
@@ -44,12 +47,21 @@ export default function RootLayout() {
   }
   
   return (
-    <Stack>
+    <Stack screenOptions={{
+      headerStyle: {
+        backgroundColor: Root.primaryTheme.bgColor,
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontFamily: Root.fontStyle.semibold,
+      },
+    }}
+    >
       <Stack.Screen name="index" options={noHeader}/>
       <Stack.Screen name="login" options={noHeader} />
       <Stack.Screen name="signup" options={noHeader}/>
-      <Stack.Screen name="test" options={noHeader}/>
-      <Stack.Screen name="main" options={noHeader}/>
+      <Stack.Screen name="test" options={{}}/>
+      <Stack.Screen name="(tabs)" options={noHeader} />
     </Stack>
   );
 }
