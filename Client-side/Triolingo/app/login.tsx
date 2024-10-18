@@ -8,12 +8,24 @@ import CustomBtn from '@/components/CustomBtn';
 export default function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [submit, isSubmitting] = useState(false);
     const router = useRouter();
     const handleLogin = () => {
         // Handle login logic here
-        console.log('Email:', email);
-        console.log('Password:', password);
+        isSubmitting(true);
+        setTimeout(() => {
+        router.push({
+            pathname: './(tabs)',
+        });
+        }, 2000);
     };
+    if (submit) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>Logging in...</Text>
+            </View>
+        );}
+    else
     return (
         <View style={styles.container}>
             <Image style={Assets.logocss.align} source={Assets.logo}/>
