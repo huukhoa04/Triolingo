@@ -1,36 +1,48 @@
 import CourseCard from "@/components/CourseCard";
+import CourseInfo from "@/components/CourseInfo";
 import TestComponent from "@/components/TestComponent";
-import { View } from "react-native";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { ScrollView, View } from "react-native";
 import CircularProgress from "react-native-circular-progress-indicator";
 
 export default function Test(){
     const percentage = 50;
+    const lorem = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, vitae. Et quasi illum veniam repellat, temporibus ab. Odit, provident voluptates debitis eaque, voluptatibus eum repellendus ullam veritatis iure minima numquam!"
     return(
-        <View style={{ 
-            flex: 1, 
-            justifyContent: 'center', 
+        <ScrollView contentContainerStyle={{ 
+            justifyContent: 'flex-start', 
             alignItems: 'center', 
+            flexDirection: 'column',
             rowGap: 10,
+            padding: 10,
             }}
         >
-
-            {/* Course */}
-            <CircularProgress
-                    
-                            value={percentage}
-                            radius={30}
-                            progressValueStyle={{
-                                userSelect: 'none',
-                                color: '#000',
-                            }}
-                            maxValue={100}
-                            activeStrokeColor={(percentage < 20) ? '#DFBF3C' : (percentage > 20 && percentage < 40) ? '#AEDF3C' : '#8EDF3C'}
-                            inActiveStrokeColor={'#2ecc71'}
-                            inActiveStrokeOpacity={0.2}
-                            progressValueColor={'#000'}
-                            valueSuffix={'%'}
-                        />
+            <CourseInfo 
+                flag={'jp'}
+                label={'Japanese'}
+                text={lorem}
+            />
+            <CourseInfo 
+                flag={'jp'}
+                label={'Japanese'}
+                text={lorem}
+            />
+            <CourseInfo 
+                flag={'jp'}
+                label={'Japanese'}
+                text={lorem}
+            />
+            <CourseInfo 
+                flag={'jp'}
+                label={'Japanese'}
+                text={lorem}
+            />
+            <CourseInfo 
+                flag={'jp'}
+                label={'Japanese'}
+                text={lorem}
+            />
             
-        </View>
+        </ScrollView>
     );
 }

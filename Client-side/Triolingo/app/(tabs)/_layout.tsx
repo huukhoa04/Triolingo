@@ -35,6 +35,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name='attendedcourse'
+        options={
+          {
+            title: 'Attended courses',
+            headerShown: true,
+            href: null,
+          }
+        }
+      />
+      <Tabs.Screen
         name="characters"
         options={{
           headerShown: true,
@@ -53,6 +63,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
+          href: null,
           title: 'Settings',
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="cog" color={color} />,
         }}
