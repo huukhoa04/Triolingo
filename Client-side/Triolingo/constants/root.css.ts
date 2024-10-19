@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 export const Root = {
     primaryTheme:{
         bgColor: '#1F3F46',
+        bgColor2: '#3F461F',
         fontColorWhite: '#fff',
         fontColorBlack: '#000',
     },

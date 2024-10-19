@@ -1,35 +1,44 @@
 import { Root } from "@/constants/root.css";
-import { StyleSheet, Text, View } from "react-native";
+
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
 import CountryFlag from "react-native-country-flag";
 
 export default function CountryCard(props: any) {
     return (
-        <View style={styles.container}>
+
+        <TouchableOpacity style={styles.container} onPress={props.onPress}>
+
             <CountryFlag style={{
                 borderRadius: 5,
             }} 
             isoCode={props.flag} 
             size={30} />
-            <Text>{props.name}</Text>
-        </View>
+
+            <Text style={styles.label}>{props.name}</Text>
+        </TouchableOpacity>
+
     )
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
+        // flex: 1,
+        justifyContent: 'flex-start',
         alignItems: 'center',
         flexDirection: 'row',
         display: 'flex',
         padding: 10,
         width: '100%',
-        height: 80,
+
+        height: 90,
         color: '#fff',
+        columnGap: 10,
+        backgroundColor: Root.primaryTheme.bgColor,
+        borderRadius: 15,
     },
     label: {
         fontFamily: Root.fontStyle.medium,
-        fontSize: 16,
-        color: '#000',
+        fontSize: 26,
+        color: '#fff',
     }
-
 });

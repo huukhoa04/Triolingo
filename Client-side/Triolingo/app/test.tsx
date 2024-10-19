@@ -1,3 +1,4 @@
+import CountryCard from "@/components/CountryCard";
 import CourseCard from "@/components/CourseCard";
 import CourseInfo from "@/components/CourseInfo";
 import TestComponent from "@/components/TestComponent";
@@ -22,26 +23,7 @@ export default function Test(){
                 label={'Japanese'}
                 text={lorem}
             />
-            <CourseInfo 
-                flag={'jp'}
-                label={'Japanese'}
-                text={lorem}
-            />
-            <CourseInfo 
-                flag={'jp'}
-                label={'Japanese'}
-                text={lorem}
-            />
-            <CourseInfo 
-                flag={'jp'}
-                label={'Japanese'}
-                text={lorem}
-            />
-            <CourseInfo 
-                flag={'jp'}
-                label={'Japanese'}
-                text={lorem}
-            />
+            <CountryCard flag={'jp'} name={'Japanese'} />
             
         </ScrollView>
     );
