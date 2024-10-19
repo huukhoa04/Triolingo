@@ -41,6 +41,7 @@ export default function TabLayout() {
             title: 'Attended courses',
             headerShown: true,
             href: null,
+            
           }
         }
       />
@@ -77,7 +78,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="newcourse"
+        name="(newcourse)"
         options={{
           href: null,
           headerShown: false,

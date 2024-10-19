@@ -2,8 +2,10 @@ import { Root } from "@/constants/root.css";
 import { StyleSheet, View, Text } from "react-native";
 import CountryFlag from "react-native-country-flag";
 import CustomBtn from "./CustomBtn";
+import { useRouter } from "expo-router";
 
 export default function CourseInfo(props: any) {
+    
     return (
             <View style={styles.container}>
                 <View style={Root.flex.row}>
@@ -19,13 +21,9 @@ export default function CourseInfo(props: any) {
                 </View>
                 <View style={Root.flex.row}>
                     <CustomBtn type={'green'} title={'Join this course'} 
-                    onPress={() => {
-
-                    }}/>
+                    onPress={props.join}/>
                     <CustomBtn type={'blue'} title={'Info'} 
-                    onPress={() => {
-                        
-                    }}/>
+                    onPress={props.info}/>
                 </View>
             </View>
         
