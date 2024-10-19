@@ -24,6 +24,8 @@ export const ButtonStyle = StyleSheet.create({
         fontSize: Root.fontSize.large,
         textAlign: 'center',
         color: '#fff',
+        lineHeight: 24,
+
     },
     linkTypeFont: {
         fontFamily: Root.fontStyle.regular,
@@ -31,6 +33,7 @@ export const ButtonStyle = StyleSheet.create({
         textAlign: 'center',
         color: '#fff',
         textDecorationLine: 'underline',
+        lineHeight: 24,
     },
     blue: {
         // minWidth: 185,

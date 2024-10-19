@@ -87,6 +87,16 @@ export default function TabLayout() {
           }
         }}
       />
+      <Tabs.Screen
+        name="(course)"
+        options={{
+          href: null,
+          headerShown: false,
+          tabBarStyle: {
+            display: 'none',
+          }
+        }}
+      />
     </Tabs>
   );
 }

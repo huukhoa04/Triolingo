@@ -1,6 +1,7 @@
 import CountryCard from "@/components/CountryCard";
 import CourseCard from "@/components/CourseCard";
 import CourseInfo from "@/components/CourseInfo";
+import PageIndicator from "@/components/PageIndicator";
 import TestComponent from "@/components/TestComponent";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { ScrollView, View } from "react-native";
@@ -24,7 +25,10 @@ export default function Test(){
                 text={lorem}
             />
             <CountryCard flag={'jp'} name={'Japanese'} />
-            
+            <PageIndicator current={1} total={30}
+                left={() => {console.log('left')}}
+                right={() => {console.log('right')}}
+            />
         </ScrollView>
     );
 }

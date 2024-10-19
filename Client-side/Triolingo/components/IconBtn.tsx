@@ -9,6 +9,7 @@ export default function IconBtn(props: any) {
             <View>
                 <FontAwesome name={props.name} size={25} color="white" style={{
                     alignSelf: "center",
+                    lineHeight: 30,
                 }}/>
             </View>
         </TouchableOpacity>

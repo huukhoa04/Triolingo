@@ -51,7 +51,8 @@ export default function CourseCard(props: any) {
                             value={percentage}
                             progressValueStyle={{
                                 padding: 0,
-                                width: 'auto'
+                                width: 'auto',
+                                fontFamily: Root.fontStyle.semibold,
                             }}
                             valueSuffixStyle={{
                                 padding: 0,
@@ -68,7 +69,7 @@ export default function CourseCard(props: any) {
                 </View>
                 <CountryFlag 
                 isoCode={props.flag} 
-                size={35}
+                size={25}
                 style={styles.flagIcon}
                 />
                     {/* <FlagIcon code={props.flag} style={styles.flagIcon} /> */}
@@ -102,12 +103,13 @@ const styles = StyleSheet.create({
         color: '#fff',
         alignSelf: 'center',
         backgroundColor: 'transparent',
+        lineHeight: 20,
     },
     flagIcon: {
         // Add your styles here
-        width: 35,
-        height: 35*11/16,
         borderRadius: 5,
+        borderWidth: 0,
+        borderColor: '#000',
     },
     progressContainer: {
         width: 60,
