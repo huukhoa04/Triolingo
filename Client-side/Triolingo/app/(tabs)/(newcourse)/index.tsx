@@ -19,6 +19,7 @@ export default function NewCourse() {
 
             });
       }, [navigation]);
+
     const HandleNavigate = (languageCode: string) => {
         return () => {
             router.push({
@@ -63,6 +64,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
     },
+
     optionHolder: {
         display: 'flex',
         flexDirection: 'column',

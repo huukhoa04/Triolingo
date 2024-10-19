@@ -1,3 +1,4 @@
+
 import CustomBtn from "@/components/CustomBtn";
 import { Root } from "@/constants/root.css";
 import { useLocalSearchParams, useNavigation } from "expo-router";
@@ -64,10 +65,12 @@ export default function CourseIndex() {
                 />
             </View>
         </ScrollView>
+
     );
 }
 const styles = StyleSheet.create({
     container: {
+
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
@@ -121,6 +124,5 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         rowGap: 10,
         columnGap: 10,
-
     },
 });
