@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
       paddingVertical: 20,
     //   fontFamily: Root.fontStyle.regular,
       color: '#fff',
+      paddingTop: 50,
     },
     username: {
         fontFamily: Root.fontStyle.bold,

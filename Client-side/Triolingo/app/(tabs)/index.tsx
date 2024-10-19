@@ -61,7 +61,7 @@ export default function Tab() {
         onPress={() => {
           console.log('add button clicked');
           router.push({
-            pathname: './newcourse',
+            pathname: './(newcourse)/',
           });
         }}
       
