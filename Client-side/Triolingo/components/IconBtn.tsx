@@ -5,12 +5,15 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 import { Audio } from "expo-av";
+import { Animated } from "react-native";
 export default function IconBtn(props: any) {
     if (props.type === "audio")
     {
         const [toggle, setToggle] = useState(false);
         const [sound, setSound] = useState<Audio.Sound | null>(null);
-
+        const getPath = () => {
+            
+        };
         useEffect(() => {
             return sound
                 ? () => {
