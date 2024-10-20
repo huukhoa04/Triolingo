@@ -9,29 +9,6 @@ import CountryFlag from "react-native-country-flag";
 export default function CourseCard(props: any) {
     const percentage = Math.round((props.part/props.all)*100);
     const percentageTest = 40;
-    const pieStyle = buildStyles({
-        // Rotation of path and trail, in number of turns (0-1)
-        // rotation: 0.25,
-    
-        // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
-        strokeLinecap: 'round',
-    
-        // Text size
-        textSize: '24px',
-    
-        // How long animation takes to go from one percentage to another, in seconds
-        pathTransitionDuration: 0.5,
-    
-        // Can specify path transition in more detail, or remove it entirely
-        // pathTransition: 'none',
-    
-        // Colors
-        pathColor: (percentage < 20) ? '#DFBF3C' : (percentage > 20 && percentage < 40) ? '#AEDF3C' : '#8EDF3C',
-        textColor: '#fff',
-        trailColor: 'transparent',
-        backgroundColor: '#000',
-        
-    }) as any;
     return (
         <>
             <TouchableOpacity style={styles.container} 
@@ -83,7 +60,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 80,
         backgroundColor: Root.primaryTheme.bgColor,
-        shadowColor: '0px 4px 4px rgba(0, 0, 0, 0.25)',
         borderRadius: 10,
         display: 'flex',
         flexDirection: 'row',

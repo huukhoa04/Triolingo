@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         display: 'flex',
         padding: 10,
+        paddingLeft: 20,
         width: '100%',
         height: 90,
         color: '#fff',

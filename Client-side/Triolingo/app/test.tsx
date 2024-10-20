@@ -1,6 +1,8 @@
+import Choice from "@/components/Choice";
 import CountryCard from "@/components/CountryCard";
 import CourseCard from "@/components/CourseCard";
 import CourseInfo from "@/components/CourseInfo";
+import IconBtn from "@/components/IconBtn";
 import PageIndicator from "@/components/PageIndicator";
 import TestComponent from "@/components/TestComponent";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -29,6 +31,13 @@ export default function Test(){
                 left={() => {console.log('left')}}
                 right={() => {console.log('right')}}
             />
+            <Choice label={'Choice 1'} check={true} onPress= {() => {
+                console.log('Choice 1 pressed');
+            }} />
+            <Choice label={'Choice 2'} check={false} onPress= {() => {
+                console.log('Choice 2 pressed');
+            }} />
+            <IconBtn type={'audio'} />
         </ScrollView>
     );
 }
