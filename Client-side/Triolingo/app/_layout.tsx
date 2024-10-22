@@ -18,7 +18,7 @@ import Login from "./login";
 import { Root } from "@/constants/root.css";
 SplashScreen.preventAutoHideAsync();
 const client = new ApolloClient({
-  uri: 'http://localhost:5000/graphql', // Thay đổi nếu cần
+  uri: 'http://192.168.0.34:5000/graphql', // Thay đổi nếu cần
   cache: new InMemoryCache(),
 });
 
