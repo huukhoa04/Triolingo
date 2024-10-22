@@ -8,6 +8,12 @@ Server-side code here
 # tải và cài đặt mongodb
 # cài đặt .env
 npm install dotenv
+# cài đặt apollo-server-express
+npm install apollo-server-express
+# cài đặc jwt
+npm install jsonwebtoken
+# cài bcrypt
+npm install bcrypt
 
 # tạo file
 Create a .env file in the server directory and add the following environment variables:

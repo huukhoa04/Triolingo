@@ -6,8 +6,6 @@ const connectDB = async (url) => {
     mongoose.set('strictQuery', false);
     await mongoose.connect(url, {
       dbName: 'triolingo', // name of database
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
     });
     console.log('MongoDB Connected!');
   } catch (err) {

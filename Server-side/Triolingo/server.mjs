@@ -1,8 +1,6 @@
-
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express'; // import ApolloServer for GraphQL
 import * as dotenv from 'dotenv';
-import path from 'path';
 
 import connectDB from './config/connection.js'; // import connection to MongoDB
 import { typeDefs, resolvers } from './schemas/index.js'; // import typeDefs and resolvers
@@ -23,13 +21,7 @@ const app = express(); // Create a new instance of an Express server
 app.use(express.urlencoded({ extended: true })); // This sets up middleware to parse incoming requests with urlencoded payloads
 app.use(express.json()); // This sets up middleware to parse incoming requests with JSON payloads
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(new URL('../client/dist', import.meta.url).pathname)));
-}
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(new URL('../client/dist/index.html', import.meta.url).pathname));
-});
+// RESTful route or GraphQL APIs should go here
 
 const startServer = async (typeDefs, resolvers) => {
   try {
