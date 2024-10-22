@@ -5,27 +5,44 @@ import { Root } from '@/constants/root.css';
 import { Assets } from '@/constants/Assets';
 import { InputStyle } from '@/constants/Input';
 import CustomBtn from '@/components/CustomBtn';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { useMutation } from '@apollo/client';
+import { LOGIN } from '../utils/mutations';
+import Auth from '../utils/auth';
+
 export default function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [submit, isSubmitting] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const router = useRouter();
-    const handleLogin = () => {
-        // Handle login logic here
-        isSubmitting(true);
-        setTimeout(() => {
-        router.push({
-            pathname: './(tabs)',
-        });
-        }, 2000);
+    
+    const [login] = useMutation(LOGIN);
+
+    const handleLogin = async () => {
+        setIsLoading(true); // Set loading state to true
+        setErrorMessage(''); // Reset error message before attempting login
+        try {
+            const { data } = await login({
+                variables: { email, password }, // Use email and password state
+            });
+            await AsyncStorage.setItem('userToken', data.login.token); 
+            
+            Auth.login(data.login.token); // Store the token in auth utility
+            router.push('/(tabs)'); // Navigate to home page after successful login
+        } catch (error) {
+            const err = error as Error;
+            console.error(error);
+            setErrorMessage(
+                err.message.includes('Incorrect credentials')
+                    ? 'Incorrect credentials'
+                    : 'Something went wrong'
+            );
+        } finally {
+            setIsLoading(false); // Reset loading state
+        }
     };
-    if (submit) {
-        return (
-            <View style={styles.container}>
-                <Text style={styles.title}>Logging in...</Text>
-            </View>
-        );}
-    else
     return (
         <View style={styles.container}>
             <Image style={Assets.logocss.align} source={Assets.logo}/>
