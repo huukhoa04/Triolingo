@@ -22,4 +22,5 @@ export const Assets = {
             borderColor: '#fff',
         }
     }),
+    testAudioPath: require('@/assets/audio/test/boom.mp3'),
 }

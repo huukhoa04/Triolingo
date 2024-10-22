@@ -8,6 +8,7 @@ import CountryFlag from "react-native-country-flag";
 
 export default function AttendedCourseIndex() {
     const navigation = useNavigation();
+    const router = useRouter();
     useEffect(() => {
         navigation.setOptions({
              headerShown: true,
@@ -67,6 +68,10 @@ export default function AttendedCourseIndex() {
                     title="Start learning"
                     onPress={() => {
                         console.log('start learning logged');
+                        router.push({
+                            pathname: './(course)/',
+                            params: { title, flag, description, dateAttended, timeLearned, corrected, total },
+                        });
                     }}
                 />
                 <CustomBtn 
@@ -102,6 +107,7 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: Root.fontStyle.semibold,
         fontSize: 40,
+        lineHeight: 45,
         display: 'flex',
         flexDirection: 'row',
         columnGap: 10,

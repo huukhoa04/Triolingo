@@ -6,18 +6,56 @@ import { Root } from '@/constants/root.css';
 import { Assets } from '@/constants/Assets';
 import CustomBtn from '@/components/CustomBtn';
 import { InputStyle } from '@/constants/Input';
+
+import { useMutation } from '@apollo/client'; // import the useMutation hook
+import { ADD_USER } from '../utils/mutations'; // import the ADD_USER mutation
+import Auth from '../utils/auth'; // import the Auth utility function
+
 export default function Signup() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
     const router = useRouter();
-    const handleSignup = () => {
-        // Handle signup logic here
-        console.log('Username:', username);
-        console.log('Email:', email);
-        console.log('Password:', password);
-        console.log('Confirm Password:', confirmPassword);
+
+    // Use Apollo useMutation hook
+    const [addUser] = useMutation(ADD_USER);
+
+    const handleSignup =async () => {
+       try {
+          // execute addUser mutation and pass in variables from the form
+          const { data } = await addUser({
+            variables: { username, email, password, confirmPassword },
+          });
+    
+          // takes the token and sets it to localStorage
+          Auth.login(data.addUser.token);
+          router.push('/(tabs)');
+        } catch (error) {
+        const err = error as Error;
+        console.error(error);
+    
+          // set error message based on error message from server
+          switch (true) {
+            case err.message.includes('username_1 dup key'):
+              setErrorMessage('Username already exists');
+              break;
+            case err.message.includes('email_1 dup key'):
+              setErrorMessage('Email already exists');
+              break;
+            case err.message.includes('Must match an email address'):
+              setErrorMessage('Email must be a valid address');
+              break;
+            case err.message.includes('shorter than the minimum allowed length'):
+              setErrorMessage('Password must be at least 5 characters');
+              break;
+            default:
+              setErrorMessage('Something went wrong');
+              break;
+          }
+        }
     };
 
     return (

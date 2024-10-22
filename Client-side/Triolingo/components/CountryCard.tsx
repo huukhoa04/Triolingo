@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         display: 'flex',
         padding: 10,
+        paddingLeft: 20,
         width: '100%',
 
         height: 90,
@@ -39,6 +40,7 @@ const styles = StyleSheet.create({
     label: {
         fontFamily: Root.fontStyle.medium,
         fontSize: 26,
+        lineHeight: 26,
         color: '#fff',
     }
 });

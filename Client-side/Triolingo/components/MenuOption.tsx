@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     label: {
         fontFamily: Root.fontStyle.medium,
         fontSize: 24,
+        lineHeight: 26,
         color: '#fff',
     }
 })
