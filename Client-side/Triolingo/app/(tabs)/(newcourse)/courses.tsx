@@ -1,3 +1,4 @@
+
 import CountryCard from "@/components/CountryCard";
 import CourseInfo from "@/components/CourseInfo";
 import { Root } from "@/constants/root.css";
@@ -13,10 +14,12 @@ export default function Courses() {
         (isoCode) === 'kp' ? 'Korean' :
         (isoCode) === 'cn' ? 'Chinese' : 'Language'
     );
+
     const navigation = useNavigation();
     const router = useRouter();
     useEffect(() => {
         navigation.setOptions({
+
             title: `All ${language} Courses`,
              headerShown: true,
              headerTitleAlign: 'center',
@@ -26,7 +29,6 @@ export default function Courses() {
 
             });
       }, [navigation]);
-
     const handleJoin = (index: number) => {
         return () => {Alert.alert('Join Course', `Are you sure you want to join this course? ${index}`, [{
             text: 'Yes',
@@ -84,6 +86,7 @@ export default function Courses() {
             />
             
         </ScrollView>
+
     );
 }
 const styles = StyleSheet.create({

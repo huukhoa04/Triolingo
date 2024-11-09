@@ -13,9 +13,14 @@ import {
 } from '@expo-google-fonts/league-spartan';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from "react";
+import { ApolloProvider, InMemoryCache, ApolloClient } from '@apollo/client';
 import Login from "./login";
 import { Root } from "@/constants/root.css";
 SplashScreen.preventAutoHideAsync();
+const client = new ApolloClient({
+  uri: 'http://192.168.0.34:5000/graphql', // Thay đổi nếu cần
+  cache: new InMemoryCache(),
+});
 
 export default function RootLayout() {
   const noHeader: any = {
@@ -44,7 +49,8 @@ export default function RootLayout() {
   }
   
   return (
-    <Stack screenOptions={{
+    <ApolloProvider client={client}>
+      <Stack screenOptions={{
       headerStyle: {
         backgroundColor: Root.primaryTheme.bgColor,
       },
@@ -60,5 +66,7 @@ export default function RootLayout() {
       <Stack.Screen name="test" options={{}}/>
       <Stack.Screen name="(tabs)" options={noHeader} />
     </Stack>
+    </ApolloProvider>
+    
   );
 }
