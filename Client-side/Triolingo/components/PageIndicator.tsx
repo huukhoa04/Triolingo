@@ -8,9 +8,9 @@ export default function PageIndicator(props: any) {
         <>
             {/* PageIndicator */}
             <View style={styles.container}>
-                <FontAwesome name="arrow-left" size={30} color="#fff" onPress={props.left}/>
+                {/* <FontAwesome name="arrow-left" size={30} color="#fff" onPress={props.left}/> */}
                 <Text style={styles.label}>Quiz {props.current}/{props.total}</Text>
-                <FontAwesome name="arrow-right" size={30} color="#fff" onPress={props.right}/>
+                {/* <FontAwesome name="arrow-right" size={30} color="#fff" onPress={props.right}/> */}
             </View>
         </>
     );

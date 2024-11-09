@@ -2,7 +2,7 @@ import { Root } from '@/constants/root.css';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text } from 'react-native';
+import { Button, Text } from 'react-native';
 import { View } from 'react-native';
 export default function TabLayout() {
   return (
@@ -49,7 +49,8 @@ export default function TabLayout() {
         name="characters"
         options={{
           headerShown: true,
-          title: 'Hiragana',
+          title: 'Characters',
+          headerTitleAlign: 'center',
           tabBarIcon: ({ color }) => 
               <Text style={{
               marginBottom: 5,

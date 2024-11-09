@@ -54,7 +54,7 @@ export default function IconBtn(props: any) {
 
             if (!toggle) {
                 const { sound } = await Audio.Sound.createAsync(
-                    Assets.testAudioPath,
+                    props.audio,
                     {
                         shouldPlay: true,
                         isLooping: false,
@@ -73,6 +73,7 @@ export default function IconBtn(props: any) {
         return (
             <TouchableOpacity style={{
                 ...styles.container,
+                ...props.styles,
                 padding: 10,
                 backgroundColor: (!toggle ? Root.primaryTheme.bgColor : "#fff"),
                 
