@@ -7,11 +7,15 @@ export default function AnswerCheckAlert({ correct, onClose, explaination }: { c
     return (
         <>
             <View style={styles.bg}>
-                <View style={styles.container}>
+                <View style={{
+                    ...styles.container,
+                    borderColor: correct? '#66ff33' : '#ff0000',
+                    // backgroundColor: correct? Root.primaryTheme.bgColor3 : '#990033',
+                    }}>
                     <Text style={styles.title}>{correct? "Correct!" : "Incorrect"}</Text>
                     <Text style={styles.desc}>{explaination}</Text>
                     <TouchableOpacity style={styles.nextBtn} onPress={onClose}>
-                        <Text style={styles.label}>"Next question"</Text>
+                        <Text style={styles.label}>Next question</Text>
                         <FontAwesome name={"arrow-right"} size={20} color={"#fff"} style={{
                             alignSelf: "center",
                             lineHeight: 30,
@@ -26,15 +30,16 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: Root.primaryTheme.bgColor,
+        backgroundColor: Root.primaryTheme.bgColor3,
         color: '#fff',
         width: 300,
         minHeight: 200,
         borderRadius: 10,
-        borderWidth: 2,
+        borderWidth: 3,
         borderColor: '#fff',
     },
     bg: {
+        flex: 1,
         width: '100%',
         height: '100%',
         margin: 0,
@@ -43,11 +48,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        zIndex: 100,
     },
     title: {
         fontFamily: Root.fontStyle.bold,
         fontSize: 25,
-        color: '#000',
+        color: '#fff',
         textAlign: 'center',
     },
     label: {
@@ -59,7 +65,7 @@ const styles = StyleSheet.create({
     desc: {
         fontFamily: Root.fontStyle.regular,
         fontSize: 16,
-        color: '#000',
+        color: '#fff',
 
     },
     nextBtn: {

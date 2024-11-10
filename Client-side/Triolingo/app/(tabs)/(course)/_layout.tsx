@@ -9,7 +9,7 @@ export default function CourseStack(){
                 headerStyle: {
                     backgroundColor: Root.primaryTheme.bgColor,
                 },
-                headerTintColor: '#fff',
+                headerTintColor: 'transparent',
                 headerTitleStyle: {
                     fontFamily: Root.fontStyle.semibold,
                 },

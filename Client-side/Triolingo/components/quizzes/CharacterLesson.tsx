@@ -4,25 +4,18 @@ import { Root } from "@/constants/root.css";
 import Choice from "../Choice";
 import { useState } from "react";
 import AnswerCheckAlert from "./AnswerCheckAlert";
+import { KanaData } from "@/constants/Letter";
+import IconBtn from "../IconBtn";
 interface CharacterLessonProps {
     quiz: MultipleChoicesQuiz;
-    next: () => void;
+    handleSelected: (selected: any) => void;
+    handleCorrect: (correct: any) => void;
 }
-export default function CharacterLesson({ quiz, next } : CharacterLessonProps) {
+export default function CharacterLesson({ quiz, handleSelected, handleCorrect } : CharacterLessonProps) {
     const match = quiz.question.match(/'([^']+)'/);
     const questionTitle = quiz.question.slice(0, match?.index);
     const letter = match ? match[1] : '';
-    const [selected, setSelected] = useState(false);
-    const [correct, setCorrect] = useState(0); //check if chosen an answer
-    const answerCheck = (option: string) => {
-        if(option === quiz.answer){
-            return true;
-        }
-        else return false;
-    };
-    const handleNext = () => {
-        next();
-    }
+    const audio = KanaData[letter as keyof typeof KanaData].audio //check if chosen an answer
     return (
         <>
             <View style={styles.container}>
@@ -31,36 +24,32 @@ export default function CharacterLesson({ quiz, next } : CharacterLessonProps) {
                     <Text style={styles.letter}>{letter}</Text>
                 </View>
                 <View style={styles.optionHolder}>
+                    <IconBtn type="audio" audio={audio} styles={{
+                        alignSelf: 'center',
+                    }}/>
                     {quiz.options.map((option: string, index: any) => {
                         return (
-                            <Choice key={index} text={option} onPress={() => {
-                                setSelected(true);
-                                if(answerCheck(option)){
-                                    setCorrect(1);
+                            <Choice key={index} label={option} onPress={() => {
+                                handleSelected(true);
+                                if(quiz.checkAnswer(option)){
+                                    handleCorrect(1);
                                 }
-                            }} check={answerCheck}/>
+                            }} check={quiz.checkAnswer(option)}/>
                         );
                     })}
                 </View>
             </View>
-            {(selected && correct === 1)? 
-            setTimeout(() => {
-                return (
-                    <>
-                        <AnswerCheckAlert correct={true} explaination={`The correct pronounciation for ${letter} is ${quiz.answer}`}
-                         onClose={handleNext}/>
-                    </>
-                )
-            })
-            : 
-            null}
+            
         </>
         
     );
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        marginTop: 20,
+        // flex: 1,
+        width: '100%',
+        paddingHorizontal: 20,
         justifyContent: 'flex-start',
         alignItems: 'center',
         rowGap: 10,
@@ -70,10 +59,10 @@ const styles = StyleSheet.create({
     question: {
         fontFamily: Root.fontStyle.bold,
         fontSize: 25,
-        color: '#000',
+        color: Root.primaryTheme.bgColor3,
     },
     letterCard: {
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Root.primaryTheme.bgColor,
         color: '#fff',
