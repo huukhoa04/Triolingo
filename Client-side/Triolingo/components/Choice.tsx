@@ -18,21 +18,38 @@ export default function Choice(props:any) {
     }, [isPressed]);
 
     const handlePress = () => {
-        setIsPressed(true);
+        setIsPressed(!isPressed);
         props.onPress();
     };
-    return (
-        <>
-            {/* Choice */}
-            <TouchableOpacity style={{
+    if(props.type === "sentence"){
+        return (
+            <>
+                <TouchableOpacity style={{
                 ...styles.container,
-                backgroundColor: isPressed ? props.check ? ButtonStyle.green.backgroundColor : ButtonStyle.red.backgroundColor : Root.primaryTheme.bgColor,
+                ...props.styles,
             }} onPress={handlePress}>
-                <FontAwesome name="circle-thin" size={30} color="#fff"/>
                 <Text style={styles.label}>{props.label}</Text>
             </TouchableOpacity>
-        </>
-    );
+            </>
+        )
+    }
+    else
+    {
+
+        return (
+            <>
+                {/* Choice */}
+                <TouchableOpacity style={{
+                    ...styles.container,
+                    ...props.styles,
+                    backgroundColor: isPressed ? props.check ? ButtonStyle.green.backgroundColor : ButtonStyle.red.backgroundColor : Root.primaryTheme.bgColor,
+                }} onPress={handlePress}>
+                    {props.noIcon? <></> :<FontAwesome name="circle-thin" size={30} color="#fff"/>}
+                    <Text style={styles.label}>{props.label}</Text>
+                </TouchableOpacity>
+            </>
+        );
+    }
     
 }
 const styles = StyleSheet.create({

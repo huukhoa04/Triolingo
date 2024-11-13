@@ -54,7 +54,7 @@ export default function IconBtn(props: any) {
 
             if (!toggle) {
                 const { sound } = await Audio.Sound.createAsync(
-                    props.audio,
+                    (props.audio? props.audio : Assets.testAudioPath),
                     {
                         shouldPlay: true,
                         isLooping: false,

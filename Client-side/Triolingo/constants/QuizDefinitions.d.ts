@@ -7,6 +7,7 @@ export interface Quiz{
 }
 export enum QuizType{
     CHARACTERS_LEARNING,
+    SENTENCES_COMPLETION,
 }
 
 export class MultipleChoicesQuiz implements Quiz{

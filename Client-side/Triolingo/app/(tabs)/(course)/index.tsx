@@ -1,28 +1,27 @@
 import PageIndicator from "@/components/PageIndicator";
 import AnswerCheckAlert from "@/components/quizzes/AnswerCheckAlert";
 import CharacterLesson from "@/components/quizzes/CharacterLesson";
-import { MultipleChoicesQuiz, QuizType } from "@/constants/QuizDefinitions";
-import { SampleQuizzes } from "@/constants/Quizzes";
+import SentenceCompletion from "@/components/quizzes/SentenceCompletion";
+import { MultipleChoicesQuiz, QuizType } from "@/constants/QuizDefinitions.d";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function LearningScreen() {
+    //test quizzes
     //get question tuples from SampleQuizzes
     const data = require('@/constants/Quizzes');
-    const lesson = data["SampleQuizzes"];
-    // const shuffledQuizzes = lesson.quizzes.sort(() => 0.5 - Math.random());
-    // const selectedQuizzes = shuffledQuizzes.slice(0, 15);
-    // lesson.quizzes = selectedQuizzes;
-    // lesson.numberOfQuizzes = selectedQuizzes.length;
+
+    //CharacterLearning
+    // const lesson = data["SampleQuizzes"]["CharacterLearning"];
+    //SentenceCompletion
+    const lesson = data["SampleQuizzes"]["SentenceCompletion"];
+
 
     const [selected, setSelected] = useState(false);
     const [correct, setCorrect] = useState(0); //check if chosen an answer
     const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
     const router = useRouter();
-
-
-
 
     const handleNext = () => {
         setCorrect(0);
@@ -48,6 +47,17 @@ export default function LearningScreen() {
                         quiz={quiz} 
                         handleCorrect={setCorrect}
                         handleSelected={setSelected}/>
+                    </>
+                );
+            }
+            case QuizType.SENTENCES_COMPLETION:{
+                return (
+                    <>
+                        <SentenceCompletion 
+                            quiz={quiz}
+                            handleCorrect={setCorrect}
+                            handleSelected={setSelected}
+                        />
                     </>
                 );
             }
