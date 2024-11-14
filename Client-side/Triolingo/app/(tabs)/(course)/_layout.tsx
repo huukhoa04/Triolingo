@@ -14,7 +14,7 @@ export default function CourseStack(){
                     fontFamily: Root.fontStyle.semibold,
                 },
             }}>
-                <Stack.Screen name="index" options={{
+                <Stack.Screen name="learning" options={{
                     headerShown: false,
                 }}/>
                 <Stack.Screen name="complete" options={{

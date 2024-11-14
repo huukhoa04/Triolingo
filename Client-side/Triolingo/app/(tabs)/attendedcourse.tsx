@@ -69,7 +69,7 @@ export default function AttendedCourseIndex() {
                     onPress={() => {
                         console.log('start learning logged');
                         router.push({
-                            pathname: './(course)/',
+                            pathname: './(course)/learning',
                             params: { title, flag, description, dateAttended, timeLearned, corrected, total },
                         });
                     }}

@@ -4,25 +4,29 @@ import CharacterLesson from "@/components/quizzes/CharacterLesson";
 import SentenceCompletion from "@/components/quizzes/SentenceCompletion";
 import { MultipleChoicesQuiz, QuizType } from "@/constants/QuizDefinitions.d";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function LearningScreen() {
     //test quizzes
     //get question tuples from SampleQuizzes
-    const data = require('@/constants/Quizzes');
+    const [data, setData] = useState(require('@/constants/Quizzes'));
 
     //CharacterLearning
     // const lesson = data["SampleQuizzes"]["CharacterLearning"];
     //SentenceCompletion
-    const lesson = data["SampleQuizzes"]["SentenceCompletion"];
+    const [lesson, setLesson] = useState(data["SampleQuizzes"]["CharacterLearning"]);
 
 
     const [selected, setSelected] = useState(false);
     const [correct, setCorrect] = useState(0); //check if chosen an answer
     const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
     const router = useRouter();
-
+    useEffect(() => {
+        setSelected(false);
+        setCorrect(0);
+        setCurrentQuizIndex(0);
+    }, []);
     const handleNext = () => {
         setCorrect(0);
         setSelected(false);
