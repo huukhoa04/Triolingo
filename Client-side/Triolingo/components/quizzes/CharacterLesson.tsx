@@ -13,20 +13,26 @@ interface CharacterLessonProps {
 }
 export default function CharacterLesson({ quiz, handleSelected, handleCorrect } : CharacterLessonProps) {
     const match = quiz.question.match(/'([^']+)'/);
+    const yomikataMatch = quiz.question.match(/\(([^)]+)\)/);
     const questionTitle = quiz.question.slice(0, match?.index);
     const letter = match ? match[1] : '';
-    const audio = KanaData[letter as keyof typeof KanaData].audio //check if chosen an answer
+    const subLetter = yomikataMatch ? yomikataMatch[1] : '';
+    const audio = KanaData[letter as keyof typeof KanaData]?.audio || null; //check if chosen an answer
     return (
         <>
             <View style={styles.container}>
                 <Text style={styles.question}>{questionTitle}</Text>
                 <View style={styles.letterCard}>
                     <Text style={styles.letter}>{letter}</Text>
+                    <Text style={styles.subLetter}>{subLetter}</Text>
                 </View>
                 <View style={styles.optionHolder}>
-                    <IconBtn type="audio" audio={audio} styles={{
-                        alignSelf: 'center',
-                    }}/>
+                    
+                    {audio && 
+                        (<IconBtn type="audio" audio={audio} styles={{
+                            alignSelf: 'center',
+                        }}/>)
+                    }
                     {quiz.options.map((option: string, index: any) => {
                         return (
                             <Choice key={index} label={option} onPress={() => {
@@ -77,6 +83,12 @@ const styles = StyleSheet.create({
         fontSize: 75,
         lineHeight: 100,
         fontWeight: 'bold',
+        color: '#fff',
+        textAlign: 'center',
+    },
+    subLetter: {
+        fontFamily: Root.fontStyle.bold,
+        fontSize: 25,
         color: '#fff',
         textAlign: 'center',
     },
