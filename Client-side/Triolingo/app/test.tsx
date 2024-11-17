@@ -5,8 +5,12 @@ import CourseCard from "@/components/CourseCard";
 import CourseInfo from "@/components/CourseInfo";
 import CourseInfoCard from "@/components/CourseInfoCard";
 import IconBtn from "@/components/IconBtn";
+import KanaCard from "@/components/kana/KanaCard";
+import KanaPopUpCard from "@/components/kana/KanaPopUpCard";
+import SectionOption from "@/components/kana/SectionOption";
 import PageIndicator from "@/components/PageIndicator";
 import TestComponent from "@/components/TestComponent";
+import { Assets } from "@/constants/Assets";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { ScrollView, View } from "react-native";
 import CircularProgress from "react-native-circular-progress-indicator";
@@ -29,23 +33,14 @@ export default function Test(){
             padding: 10,
             }}
         >
-            <CourseInfo 
-                flag={'jp'}
-                label={'Japanese'}
-                text={lorem}
-            />
-            <CountryCard flag={'jp'} name={'Japanese'} />
-            <PageIndicator current={1} total={30}
-                left={() => {console.log('left')}}
-                right={() => {console.log('right')}}
-            />
+            <PageIndicator current={1} total={30}/>
             <Choice label={'Choice 1'} check={true} onPress= {() => {
                 console.log('Choice 1 pressed');
             }} />
             <Choice label={'Choice 2'} check={false} onPress= {() => {
                 console.log('Choice 2 pressed');
             }} />
-            <IconBtn type={'audio'} />
+            <IconBtn type={'audio'} audio={Assets.testAudioPath}/>
             <CardOption title={'Option 1'} />
             <CourseInfoCard 
                 lessonIndex={"LESSON 1"}
@@ -53,6 +48,7 @@ export default function Test(){
                 description={lorem}
                 options={options}
             />
+            <KanaCard letter={'あ'} status={""}/>
         </ScrollView>
     );
 }

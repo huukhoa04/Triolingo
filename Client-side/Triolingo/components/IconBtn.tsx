@@ -4,43 +4,76 @@ import { Root } from "@/constants/root.css";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
-
+import { Audio } from "expo-av";
+import { Animated } from "react-native";
 export default function IconBtn(props: any) {
     if (props.type === "audio")
     {
         const [toggle, setToggle] = useState(false);
-        // const [sound, setSound] = useState<Audio.Sound | null>(null);
+        const [sound, setSound] = useState<Audio.Sound | null>(null);
+        const getPath = () => {
+            
+        };
+        useEffect(() => {
+            return sound
+                ? () => {
+                    sound.unloadAsync(); // Unload sound when component unmounts
+                }
+                : undefined;
+        }, [sound]);
 
-    // useEffect(() => {
-    //     return sound
-    //         ? () => {
-    //               sound.unloadAsync(); // Unload sound when component unmounts
-    //           }
-    //         : undefined;
-    // }, [sound]);
+        //playback update
+        const _onPlaybackStatusUpdate = (playbackStatus: any) => {
+            if (!playbackStatus.isLoaded) {
+                // Update your UI for the unloaded state
+                if (playbackStatus.error) {
+                    console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+                }
+            } else {
+                // Update your UI for the loaded state
+                if (playbackStatus.isPlaying) {
+                    // Update your UI for the playing state
+                } else {
+                    // Update your UI for the paused state
+                }
+    
+                if (playbackStatus.isBuffering) {
+                    // Update your UI for the buffering state
+                }
+    
+                if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
+                    // The player has just finished playing and will stop. Maybe you want to play something else?
+                    setToggle(false);
+                }
+            }
+        };
 
-
-    //     const AudioHandle = async () => {
-    //     setToggle(!toggle);
-    //     if (!toggle) {
-    //         const { sound } = await Audio.Sound.createAsync(
-    //             Assets.testAudioPath // Replace with your audio file path
-    //         );
-
-    //         setSound(sound);
-    //     } else {
-    //         if (sound) {
-    //             await sound.pauseAsync();
-    //             setToggle(false);
-    //         }
-    //     }
-    // };
-        const handlePress = () => {
+        //play audio
+        const handlePress = async () => {
             setToggle(!toggle);
+
+            if (!toggle) {
+                const { sound } = await Audio.Sound.createAsync(
+                    (props.audio? props.audio : Assets.testAudioPath),
+                    {
+                        shouldPlay: true,
+                        isLooping: false,
+                    }
+                );
+                sound.setOnPlaybackStatusUpdate(_onPlaybackStatusUpdate);
+                setSound(sound);
+                await sound.playAsync();
+            } else {
+            if (sound) {
+                    await sound.pauseAsync();
+                    setToggle(false);
+                }
+            }
         }
         return (
             <TouchableOpacity style={{
                 ...styles.container,
+                ...props.styles,
                 padding: 10,
                 backgroundColor: (!toggle ? Root.primaryTheme.bgColor : "#fff"),
                 
