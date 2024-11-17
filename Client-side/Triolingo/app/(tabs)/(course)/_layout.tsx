@@ -9,12 +9,15 @@ export default function CourseStack(){
                 headerStyle: {
                     backgroundColor: Root.primaryTheme.bgColor,
                 },
-                headerTintColor: '#fff',
+                headerTintColor: 'transparent',
                 headerTitleStyle: {
                     fontFamily: Root.fontStyle.semibold,
                 },
             }}>
-                <Stack.Screen name="index" options={{
+                <Stack.Screen name="learning" options={{
+                    headerShown: false,
+                }}/>
+                <Stack.Screen name="complete" options={{
                     headerShown: false,
                 }}/>
             </Stack>

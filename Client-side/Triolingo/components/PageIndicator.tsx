@@ -8,9 +8,9 @@ export default function PageIndicator(props: any) {
         <>
             {/* PageIndicator */}
             <View style={styles.container}>
-                <FontAwesome name="arrow-left" size={30} color="#fff" onPress={props.left}/>
+                {/* <FontAwesome name="arrow-left" size={30} color="#fff" onPress={props.left}/> */}
                 <Text style={styles.label}>Quiz {props.current}/{props.total}</Text>
-                <FontAwesome name="arrow-right" size={30} color="#fff" onPress={props.right}/>
+                {/* <FontAwesome name="arrow-right" size={30} color="#fff" onPress={props.right}/> */}
             </View>
         </>
     );
@@ -19,11 +19,10 @@ const styles = StyleSheet.create({
     container: {
         width: 320,
         height: 50,
-        textAlign: 'center',
         alignItems: 'center',
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         borderRadius: 20,
         backgroundColor: Root.primaryTheme.bgColor,
         paddingHorizontal: 20,
@@ -31,6 +30,7 @@ const styles = StyleSheet.create({
     label: {
         fontFamily: Root.fontStyle.medium,
         fontSize: 24,
+        textAlign: 'center',
         lineHeight: 25,
         color: '#fff',
     }

@@ -1,7 +1,8 @@
 import CustomBtn from "@/components/CustomBtn";
 import { Root } from "@/constants/root.css";
+import { LessonHandler } from "@/courseData/Lesson.json";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import CircularProgress from "react-native-circular-progress-indicator";
 import CountryFlag from "react-native-country-flag";
@@ -21,14 +22,15 @@ export default function AttendedCourseIndex() {
 
 
 
-    const { title, flag, description, dateAttended, timeLearned, corrected, total } = useLocalSearchParams();
-    const percentage = Math.round((Number(corrected) / Number(total)) * 100);
-    console.log(title, flag, description, dateAttended, timeLearned, corrected, total);
+    const { courseId, dateJoined, times, highestCorrect, total } = useLocalSearchParams();
+    const [courseInfo, setCourseInfo] = useState(LessonHandler.getLesson(Number(courseId)));
+    const percentage = Math.round((Number(highestCorrect) / Number(total)) * 100);
+    // console.log(title, flag, description, dateAttended, timeLearned, corrected, total);
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={Root.flex.row}>
-                <Text style={styles.title}>{title}</Text>
-                <CountryFlag isoCode={flag as string} size={45} style={styles.flag}/>
+                <Text style={styles.title}>{courseInfo?.title}</Text>
+                <CountryFlag isoCode={courseInfo?.lang as string} size={45} style={styles.flag}/>
                 
             </View>
             <CircularProgress
@@ -56,11 +58,11 @@ export default function AttendedCourseIndex() {
                             progressValueColor={'#000'}
                             valueSuffix={'%'}
                         />
-            <Text style={styles.description}>{description}</Text>
+            <Text style={styles.description}>{courseInfo?.description}</Text>
             <View style={styles.infoHolder}>
-                <Text style={styles.label}>Date Attended: <Text style={styles.text}>{dateAttended}</Text></Text>
-                <Text style={styles.label}>Time Learned: <Text style={styles.text}>{timeLearned}</Text></Text>
-                <Text style={styles.label}>Corrected: <Text style={styles.text}>{corrected}</Text></Text>
+                <Text style={styles.label}>Date Attended: <Text style={styles.text}>{dateJoined}</Text></Text>
+                <Text style={styles.label}>Time Learned: <Text style={styles.text}>{times}</Text></Text>
+                <Text style={styles.label}>Highest Corrected: <Text style={styles.text}>{highestCorrect}</Text></Text>
                 <Text style={styles.label}>Total: <Text style={styles.text}>{total}</Text></Text>
             </View>
             <View style={styles.button}>
@@ -69,8 +71,8 @@ export default function AttendedCourseIndex() {
                     onPress={() => {
                         console.log('start learning logged');
                         router.push({
-                            pathname: './(course)/',
-                            params: { title, flag, description, dateAttended, timeLearned, corrected, total },
+                            pathname: './(course)/learning',
+                            params: {courseId: courseId},
                         });
                     }}
                 />

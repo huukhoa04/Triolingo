@@ -2,25 +2,47 @@ import CourseCard from '@/components/CourseCard';
 import IconBtn from '@/components/IconBtn';
 import { ButtonStyle } from '@/constants/ButtonTheme';
 import { Root } from '@/constants/root.css';
+import { Lesson, LessonHandler } from '@/courseData/Lesson.json';
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import Test from '../test';
+import { TestData } from '@/constants/SampleData.json';
 
 export default function Tab() {
   const router = useRouter();
-  const params1 = {
-    title: 'simple card',
-    flag: 'jp',
-    description: 'This is a simple card for testing purposes. It is used to test the CourseCard component.',
-    dateAttended: '2021-10-10',
-    timeLearned: 15,
-    corrected: 15,
-    total: 30,
-  }
+  //test
+  const [userData, setUserData] = useState(TestData);
   return (
     <>
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.label}>In progress</Text>
-      <CourseCard part={15} all={30} title={'simple card'} flag={'jp'}
+      {userData.UserCourses
+      .filter((course) => course.isCompleted === false)
+      .map((course, index) => {
+          return (
+            <CourseCard
+              key={index}
+              part={course.highestCorrect}
+              all={course.total}
+              title={LessonHandler.getLesson(course.courseId)?.title}
+              flag={LessonHandler.getLesson(course.courseId)?.lang}
+              onPress={() => {
+                router.push({
+                  pathname: './attendedcourse',
+                  params: {
+                    courseId: course.courseId,
+                    dateJoined: course.dateJoined,
+                    times: course.times,
+                    highestCorrect: course.highestCorrect,
+                    total: course.total,
+                  },
+                });
+              }}
+            />
+          );
+        })}
+      {/* <CourseCard part={15} all={30} title={'simple card'} flag={'jp'}
                 onPress={() => {
                     router.push({
                       pathname: './attendedcourse',
@@ -34,7 +56,7 @@ export default function Tab() {
                 onPress={() => {
 
                 }} 
-      />
+      /> */}
       
 
 

@@ -4,6 +4,7 @@ export const Root = {
     primaryTheme:{
         bgColor: '#1F3F46',
         bgColor2: '#3F461F',
+        bgColor3: '#206676',
         fontColorWhite: '#fff',
         fontColorBlack: '#000',
     },
