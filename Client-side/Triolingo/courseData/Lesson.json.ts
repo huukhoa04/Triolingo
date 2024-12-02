@@ -9,12 +9,11 @@ export const Lesson = {
         description: "This lesson will teach you the basic Japanese characters and how to pronounce them.",
         numberOfQuizzes: 30,
         quizzes: LessonQuizBank["lesson1"].quizzes.sort(() => 0.5 - Math.random()).slice(0, 30),
-        
         lang: CourseLangType.JAPANESE,
     },
     lesson2: {
         id: 2,
-        title: "Japanese for travelling",
+        title: "Travelling",
         description: "This lesson will teach you the basic Japanese phrases for travelling.",
         numberOfQuizzes: 30,
         quizzes: LessonQuizBank["lesson2"].quizzes.sort(() => 0.5 - Math.random()).slice(0, 30),
@@ -22,7 +21,7 @@ export const Lesson = {
     },
     lesson3: {
         id: 3,
-        title: "Japanese about food and drink",
+        title: "Food and drink",
         description: "This lesson will teach you the basic Japanese phrases for ordering food and drink.",
         numberOfQuizzes: 30,
         quizzes: LessonQuizBank["lesson3"].quizzes.sort(() => 0.5 - Math.random()).slice(0, 30),

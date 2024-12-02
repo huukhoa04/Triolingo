@@ -34,3 +34,31 @@ export const UPDATE_EXPERIENCE = gql`
     }
   }
 `;
+
+export const ADD_COURSE_TO_USER = gql`
+  mutation addCourseToUser($username: String!, $courseId: Number!) {
+    addCourseToUser(username: $username, courseId: $courseId) {
+      _id
+      username
+      courseId
+    }
+  }
+`;
+
+export const UPDATE_COURSE_STATS = gql`
+  mutation updateCourseStats($courseId: Number!, $highestCorrected: Number, $timeLearned: Number, $visible: Boolean) {
+    updateCourseStats(courseId: $courseId, highestCorrected: $highestCorrected, timeLearned: $timeLearned, visible: $visible) {
+      _id
+      username
+      courseId
+      highestCorrected
+      timeLearned
+      visible
+    }
+  }
+`;
+
+//TODO: 
+//MUTATION: addCourseToUser (add userCourse)
+//MUTATION: removeCourseFromUser (remove userCourse)
+//MUTATION: Stats (lưu trong từng userCourse)

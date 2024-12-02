@@ -12,6 +12,16 @@ const typeDefs = gql`
     experience: Int
   }
 
+  type UserCourse {
+    _id: ID
+    username: String
+    courseId: Number
+    dateJoined: Date
+    highestCorrected: Number
+    timeLearned: Number
+    visible: Boolean
+  }
+
   type Auth {
     token: ID!
     user: User
@@ -21,12 +31,16 @@ const typeDefs = gql`
     me: User
     users: [User]
     user(username: String!): User
+    userCourses: [UserCourse]
+    userCoursesByUsername(username: String!): [UserCourse]
   }
 
   type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     updateExperience(experience: Int!): User
+    addCourseToUser(username: String!, courseId: Number!): UserCourse
+    updateCourseStats(username: String!, courseId: Number!, highestCorrected: Number, timeLearned: Number, visible: Boolean): UserCourse
   }
 `;
 

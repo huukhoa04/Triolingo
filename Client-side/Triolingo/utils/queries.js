@@ -37,3 +37,33 @@ export const QUERY_USERS = gql`
     }
   }
 `;
+
+export const QUERY_COURSES = gql`
+  {
+    userCourses {
+      _id
+      username
+      courseId
+      dateJoined
+      highestCorrected
+      timeLearned
+      visible
+    }
+  }
+`;
+
+export const QUERY_COURSES_BY_USER = gql`
+  query userCoursesByUsername($username: String!) {
+    userCoursesByUsername(username: $username) {
+      _id
+      username
+      courseId
+      dateJoined
+      highestCorrected
+      timeLearned
+      visible
+    }
+  }
+`
+//TODO:
+// QUERY getCourseByUserId (getALl userCourse by userId)

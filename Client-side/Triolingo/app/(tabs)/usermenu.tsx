@@ -1,6 +1,7 @@
 import MenuOption from "@/components/MenuOption";
 import { Assets } from "@/constants/Assets";
 import { Root } from "@/constants/root.css";
+import auth from "@/utils/auth";
 import { useRouter } from "expo-router";
 import { Image, StyleSheet, Text, View } from "react-native";
 
@@ -48,6 +49,7 @@ export default function UserMenu() {
                     name='arrow-circle-o-left'
                     onPress={() => {
                         // Navigate to the Profile page
+                        auth.logout();
                         router.replace('/login');
                     }}
                 />

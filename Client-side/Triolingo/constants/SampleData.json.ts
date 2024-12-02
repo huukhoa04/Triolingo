@@ -1,5 +1,6 @@
 export const TestData = {
     UserCourses:[
+        //khi user tham gia khoa hoc, se duoc them vao day
         {
             userId: 1,
             courseId: 1,

@@ -14,7 +14,6 @@ export default function LearningScreen() {
     const { courseId } = useLocalSearchParams();
     console.log(courseId);
     const [lesson, setLesson] = useState(LessonHandler.getLesson(Number(courseId)) || null);
-    console.log(lesson);
     const [selected, setSelected] = useState(false);
     const [correct, setCorrect] = useState(0); //check if chosen an answer
     const [currentQuizIndex, setCurrentQuizIndex] = useState(0);

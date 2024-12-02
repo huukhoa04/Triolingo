@@ -1,6 +1,7 @@
 import User from "../models/user.js";
 import { AuthenticationError } from 'apollo-server-express';
 import { signToken } from '../utils/auth.js';
+import UserCourse from "../models/userCourse.js";
 
 const resolvers = {
   Query: {
@@ -28,6 +29,20 @@ const resolvers = {
     user: async (parent, { username }) => {
       return User.findOne({ username }).select('-__v -password');
     },
+
+    userCourses: async () => {
+      return (
+        UserCourse.find()
+          // omit mongoose-specific __v property
+          .select('-__v')
+      )
+    },
+    userCoursesByUsername: async (parent, { username }) => {
+      return UserCourse.find({ username }).select('-__v');
+    },
+
+
+
   },
   Mutation: {
     // add a user to the database
@@ -77,6 +92,27 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
+
+    addCourseToUser: async (parent, args, context) => {
+      if (context.user) {
+        const userCourse = await UserCourse.create(args);
+        return userCourse;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+
+    updateCourse: async (parent, args, context) => {
+      if (context.user) {
+        const updatedCourse = await UserCourse.findOneAndUpdate(
+          { username: context.user.username, courseId: args.courseId },
+          { $set: args },
+          { new: true }
+        );
+        return updatedCourse;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+
   },
 };
 

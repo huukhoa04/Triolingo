@@ -79,6 +79,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="leaderboards"
+        options={{
+          headerShown: false,
+          title: 'Leaderboard',
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="trophy" color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="(newcourse)"
         options={{
           href: null,
