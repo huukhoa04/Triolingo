@@ -3,16 +3,18 @@ import { Assets } from "@/constants/Assets";
 import { Root } from "@/constants/root.css";
 import auth from "@/utils/auth";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 
 export default function UserMenu() {
     const router = useRouter();
+    const [user, setUser] = useState(auth.getProfile());
     return (
         <View style={styles.container}>
             <Image style={Assets.logocss.align} source={Assets.logo}/>
             <Image style={Assets.avatarcss.align} source={Assets.sampleAvatar}/>
-            <Text style={styles.username}>Username</Text>
+            <Text style={styles.username}>{user.username}</Text>
             <View style={Root.flex.column}>
                 <MenuOption 
                     label='Settings' 

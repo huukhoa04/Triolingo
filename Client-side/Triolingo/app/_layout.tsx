@@ -51,21 +51,21 @@ export default function RootLayout() {
   return (
     <ApolloProvider client={client}>
       <Stack screenOptions={{
-      headerStyle: {
-        backgroundColor: Root.primaryTheme.bgColor,
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontFamily: Root.fontStyle.semibold,
-      },
-    }}
-    >
+        headerStyle: {
+          backgroundColor: Root.primaryTheme.bgColor,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontFamily: Root.fontStyle.semibold,
+        },
+      }}
+      >
       <Stack.Screen name="index" options={noHeader}/>
       <Stack.Screen name="login" options={noHeader} />
       <Stack.Screen name="signup" options={noHeader}/>
       <Stack.Screen name="test" options={{}}/>
       <Stack.Screen name="(tabs)" options={noHeader} />
-    </Stack>
+      </Stack>
     </ApolloProvider>
     
   );

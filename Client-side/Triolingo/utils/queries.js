@@ -46,7 +46,9 @@ export const QUERY_COURSES = gql`
       courseId
       dateJoined
       highestCorrected
+      total
       timeLearned
+      isCompleted
       visible
     }
   }
@@ -60,7 +62,9 @@ export const QUERY_COURSES_BY_USER = gql`
       courseId
       dateJoined
       highestCorrected
+      total
       timeLearned
+      isCompleted
       visible
     }
   }

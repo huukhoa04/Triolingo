@@ -1,7 +1,5 @@
 import { model, Schema } from "mongoose";
-
-
-
+import dateFormat from "../utils/helpers.js";
 const userCourseSchema = new Schema({
     username: {
         type: String,
@@ -16,18 +14,27 @@ const userCourseSchema = new Schema({
     },
     dateJoined: {
         type: Date,
-        required: true,
         default: Date.now,
+        get: (timestamp) => dateFormat(timestamp),
     },
     highestCorrected: {
         type: Number,
         required: true,
         default: 0,
     },
+    total: {
+        type: Number,
+        required: true, 
+    },
     timeLearned: {
         type: Number,
         required: true,
         default: 0,
+    },
+    isCompleted: {
+        type: Boolean,
+        required: true,
+        default: false,
     },
     visible: {
         type: Boolean,

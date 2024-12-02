@@ -15,10 +15,12 @@ const typeDefs = gql`
   type UserCourse {
     _id: ID
     username: String
-    courseId: Number
-    dateJoined: Date
-    highestCorrected: Number
-    timeLearned: Number
+    courseId: Int
+    dateJoined: String
+    highestCorrected: Int
+    total: Int
+    timeLearned: Int
+    isCompleted: Boolean
     visible: Boolean
   }
 
@@ -39,8 +41,8 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     updateExperience(experience: Int!): User
-    addCourseToUser(username: String!, courseId: Number!): UserCourse
-    updateCourseStats(username: String!, courseId: Number!, highestCorrected: Number, timeLearned: Number, visible: Boolean): UserCourse
+    addCourseToUser(username: String!, courseId: Int!, total: Int!): UserCourse
+    updateCourse(username: String!, courseId: Int!, highestCorrected: Int, timeLearned: Int, isCompleted: Boolean, visible: Boolean): UserCourse
   }
 `;
 

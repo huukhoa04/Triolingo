@@ -41,6 +41,7 @@ export const ADD_COURSE_TO_USER = gql`
       _id
       username
       courseId
+      total
     }
   }
 `;
@@ -53,6 +54,7 @@ export const UPDATE_COURSE_STATS = gql`
       courseId
       highestCorrected
       timeLearned
+      isCompleted
       visible
     }
   }
