@@ -4,21 +4,32 @@ import CharacterLesson from "@/components/quizzes/CharacterLesson";
 import SentenceCompletion from "@/components/quizzes/SentenceCompletion";
 import { MultipleChoicesQuiz, QuizType } from "@/constants/QuizDefinitions.d";
 import { LessonHandler } from "@/courseData/Lesson.json";
+import { UserData } from "@/interface/UserData";
+import auth from "@/utils/auth";
+import { UPDATE_COURSE_STATS } from "@/utils/mutations";
+import { useMutation } from "@apollo/client";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-
 export default function LearningScreen() {
     //test quizzes
     //get question tuples from SampleQuizzes
-    const { courseId } = useLocalSearchParams();
+    const { courseId, times, highestCorrect } = useLocalSearchParams();
     console.log(courseId);
+    const [userData, setUserData] = useState<UserData>();
     const [lesson, setLesson] = useState(LessonHandler.getLesson(Number(courseId)) || null);
     const [selected, setSelected] = useState(false);
     const [correct, setCorrect] = useState(0); //check if chosen an answer
     const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [totalCorrected, setTotalCorrected] = useState(0);
+    const [updateCourse] = useMutation(UPDATE_COURSE_STATS);
     const router = useRouter();
+    useEffect(() => {
+        auth.getProfile().then((profile) => {
+            setUserData(profile);
+        });
+    }, [])
     useFocusEffect(
         React.useCallback(() => {
             setSelected(false);
@@ -54,11 +65,23 @@ export default function LearningScreen() {
             setCorrect(0);
             setSelected(false);
             if(currentQuizIndex === lesson.numberOfQuizzes - 1){
+                updateCourse({
+                    variables: {
+                        username: userData?.username,
+                        courseId: courseId,
+                        timeLearned: Number(times) + 1,
+                        highestCorrected: Number(highestCorrect) > totalCorrected? highestCorrect : totalCorrected,
+                        total: lesson.numberOfQuizzes,
+                        isCompleted: true,
+                    }
+                });
+
                 router.push({
                     pathname: './complete',
                     params: {
-                        title: 'Congratulations!',
-                        message: 'You have completed the lesson!',
+                        courseId: courseId,
+                        corrected: totalCorrected,
+                        total: lesson.numberOfQuizzes,
                     },
                 })
             }
@@ -101,7 +124,10 @@ export default function LearningScreen() {
                 {(selected && correct === 1)? 
                                 <>
                                     <AnswerCheckAlert correct={true} explaination={lesson.quizzes[currentQuizIndex].explaination}
-                                    onClose={handleNext}/> 
+                                    onClose={() => {
+                                        setTotalCorrected(totalCorrected + 1);
+                                        handleNext();
+                                    }}/> 
                                 </>
                             : (selected && correct !== 1)? 
                                 <>

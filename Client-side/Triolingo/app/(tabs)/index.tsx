@@ -10,29 +10,26 @@ import Test from '../test';
 import { TestData } from '@/constants/SampleData.json';
 import { useQuery } from '@apollo/client';
 import { QUERY_COURSES_BY_USER } from '@/utils/queries';
+import auth from '@/utils/auth';
+import { userCourses } from '@/interface/UserCourse';
+import { UserData } from '@/interface/UserData';
 
-interface userCourses {
-    username: string;
-    courseId: number;
-    dateJoined: string;
-    highestCorrected: number;
-    total: number;
-    timeLearned: number;
-    isCompleted: boolean;
-    visible: boolean;
-}
 
 export default function Tab() {
   const router = useRouter();
   //test
-
+  const [user, setUser] = useState<UserData>();
   // data receiver
   const [userData, setUserData] = useState<userCourses[]>([]);
   //fetch userCourses
   const {loading, data} = useQuery<{userCourses: userCourses[]}>(QUERY_COURSES_BY_USER, {
-    variables: {username: 'test'},
+    variables: {username: user?.username},
+    pollInterval: 500,
   });
   useEffect(() => {
+    auth.getProfile().then((profile) => {
+      setUser(profile);
+    });
     if (data) {
       setUserData(data.userCourses); //assign all data to userData
     }
@@ -47,7 +44,9 @@ export default function Tab() {
         ) : (
         <>
         <Text style={styles.label}>In progress</Text>
-          {userData.filter((course) => course.isCompleted === false).map((course, index) => {
+          {
+          userData.length > 0 ?
+          userData.filter((course) => course.isCompleted === false).map((course, index) => {
             <CourseCard 
               key={index}
               part={course.highestCorrected}
@@ -67,7 +66,9 @@ export default function Tab() {
                 });
               }}
             />
-          })}
+          }):
+          <Text style={styles.subLabel}>No course available</Text>
+          }
         </>
       )}
       {/* <Text style={styles.label}>In progress</Text>
@@ -158,6 +159,12 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 30,
+    fontFamily: Root.fontStyle.medium,
+    marginBottom: 5,
+    marginLeft: 15,
+  },
+  subLabel: {
+    fontSize: 20,
     fontFamily: Root.fontStyle.medium,
     marginBottom: 5,
     marginLeft: 15,

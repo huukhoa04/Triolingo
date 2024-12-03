@@ -71,19 +71,19 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="Leaderboards"
+        options={{
+          headerShown: false,
+          title: 'Leaderboard',
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="trophy" color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="usermenu"
         options={{
           headerShown: false,
           title: 'User',
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="user-circle" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="leaderboards"
-        options={{
-          headerShown: false,
-          title: 'Leaderboard',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="trophy" color={color} />,
         }}
       />
       <Tabs.Screen

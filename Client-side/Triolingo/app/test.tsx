@@ -13,6 +13,7 @@ import TestComponent from "@/components/TestComponent";
 import { Assets } from "@/constants/Assets";
 import auth from "@/utils/auth";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 import CircularProgress from "react-native-circular-progress-indicator";
 
@@ -24,11 +25,17 @@ export default function Test(){
         {title: 'Option 3'},
         {title: 'Option 4'},
     ]
-    console.log(auth.getProfile());
+    const [userData, setUserData] = useState<any>();
+    useEffect(() => {
+        auth.getProfile().then((profile) => {
+            setUserData(profile);
+            console.log(profile);
+        });
+    }, []);
     const lorem = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, vitae. Et quasi illum veniam repellat, temporibus ab. Odit, provident voluptates debitis eaque, voluptatibus eum repellendus ullam veritatis iure minima numquam!"
     return(
         <>
-        
+            {userData && userData.username}
         </>
         // <ScrollView contentContainerStyle={{ 
         //     justifyContent: 'flex-start', 

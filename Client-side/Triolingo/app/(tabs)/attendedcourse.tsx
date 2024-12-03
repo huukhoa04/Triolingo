@@ -24,6 +24,7 @@ export default function AttendedCourseIndex() {
 
     const { courseId, dateJoined, times, highestCorrect, total } = useLocalSearchParams();
     const [courseInfo, setCourseInfo] = useState(LessonHandler.getLesson(Number(courseId)));
+
     const percentage = Math.round((Number(highestCorrect) / Number(total)) * 100);
     // console.log(title, flag, description, dateAttended, timeLearned, corrected, total);
     return (
@@ -72,7 +73,11 @@ export default function AttendedCourseIndex() {
                         console.log('start learning logged');
                         router.push({
                             pathname: './(course)/learning',
-                            params: {courseId: courseId},
+                            params: {
+                                courseId: courseId,
+                                times: times,
+                                highestCorrect: highestCorrect,
+                            },
                         });
                     }}
                 />
@@ -81,7 +86,6 @@ export default function AttendedCourseIndex() {
                     title="Rate this course"
                     onPress={() => {
                         console.log('rate logged');
-                
                     }}
                 />
                 <CustomBtn 

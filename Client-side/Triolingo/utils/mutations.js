@@ -47,8 +47,8 @@ export const ADD_COURSE_TO_USER = gql`
 `;
 
 export const UPDATE_COURSE_STATS = gql`
-  mutation updateCourseStats($courseId: Number!, $highestCorrected: Number, $timeLearned: Number, $visible: Boolean) {
-    updateCourseStats(courseId: $courseId, highestCorrected: $highestCorrected, timeLearned: $timeLearned, visible: $visible) {
+  mutation updateCourse($courseId: Number!, $highestCorrected: Number, $timeLearned: Number, $visible: Boolean) {
+    updateCourse(courseId: $courseId, highestCorrected: $highestCorrected, timeLearned: $timeLearned, visible: $visible) {
       _id
       username
       courseId

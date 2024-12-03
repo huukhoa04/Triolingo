@@ -7,7 +7,7 @@ import auth from "@/utils/auth";
 import { ADD_COURSE_TO_USER } from "@/utils/mutations";
 import { useMutation } from "@apollo/client";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 export default function Courses() {
     const { isoCode } = useLocalSearchParams();
@@ -18,6 +18,13 @@ export default function Courses() {
         (isoCode) === 'kp' ? 'Korean' :
         (isoCode) === 'cn' ? 'Chinese' : 'Language'
     );
+    const [userData, setUserData] = useState<any>();
+    useEffect(() => {
+        auth.getProfile().then((profile) => {
+            setUserData(profile);
+            console.log(profile);
+        });
+    },[]);
     const lesson = Lesson;
     const navigation = useNavigation();
     const router = useRouter();
@@ -36,11 +43,12 @@ export default function Courses() {
       }, [navigation]);
       //TODO: Handle Join Course
     const handleJoin = (index: number) => {
+        console.log("user data", userData);
         return () => {Alert.alert('Join Course', `Are you sure you want to join this course? ${index}`, [{
             text: 'Yes',
             onPress: async () => {
                 await joinCourse({
-                    variables: { courseId: index, username: auth.getProfile().username },
+                    variables: { courseId: index, username: userData?.username },
                 }).then((res) => {
                     if(res){
                         Alert.alert('Success', 'You have successfully joined the course');
@@ -71,13 +79,15 @@ export default function Courses() {
                 lesson.filter((course: any) => course.lang === isoCode)
                 .map((course: any, index: number) => 
                 <CourseInfo 
-                key={index}
-                flag={isoCode}
-                label={course.title}
-                text={course.description}
-                id={course.id}
-                join={handleJoin(course.id)}
-                info={handleRedirect(course.id)}
+                    key={index}
+                    flag={isoCode}
+                    label={course.title}
+                    text={course.description}
+                    id={course.id}
+                    join={() => {
+                        handleJoin(course.id);
+                    }}
+                    info={handleRedirect(course.id)}
                 />
             )
             }
