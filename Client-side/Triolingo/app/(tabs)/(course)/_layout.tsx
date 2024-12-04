@@ -20,6 +20,7 @@ export default function CourseStack(){
                 <Stack.Screen name="complete" options={{
                     headerShown: false,
                 }}/>
+                
             </Stack>
         </>
     )
