@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView, ActivityIndicator, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@apollo/client';
 import { QUERY_USERS } from '../../utils/queries';
 import Auth from '@/utils/auth';
+import { useFocusEffect } from 'expo-router';
 
 interface User {
   username: string;
@@ -17,10 +18,14 @@ const Leaderboards = () => {
   // If the user is not logged in, navigate to the login screen
   // Fetch user data from the server
   const { loading, data } = useQuery<{ users: User[] }>(QUERY_USERS);
-  const users = data?.users || [];
-  
-  // Sort users by experience
-  const sortedUsers = [...users].sort((a, b) => b.experience - a.experience);
+  const [users, setUser] = useState<User[]>([]);
+  useFocusEffect(
+    React.useCallback(() => {
+      if(data){
+        setUser(data.users.sort((a, b) => b.experience - a.experience));
+      }
+    }, [data])
+  )
 
   // Ranking styling logic
   const rankStyle = (index: number) => {
@@ -55,7 +60,7 @@ const Leaderboards = () => {
         {loading ? (
           <ActivityIndicator size="large" color="#00ff00" style={styles.loadingIndicator} />
         ) : (
-          sortedUsers.map((user, index) => (
+          users.map((user, index) => (
             <View key={user.username} style={styles.userContainer}>
               <Text style={[styles.rankText, rankStyle(index)]}>{index + 1}</Text>
               <View style={styles.userIcon}>

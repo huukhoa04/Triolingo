@@ -4,7 +4,8 @@ import { Root } from "@/constants/root.css";
 import { LessonHandler } from "@/courseData/Lesson.json";
 import auth from "@/utils/auth";
 import { ADD_COURSE_TO_USER } from "@/utils/mutations";
-import { useMutation } from "@apollo/client";
+import { QUERY_COURSES_BY_COURSE_ID, QUERY_COURSES_COUNT_BY_COURSE_ID } from "@/utils/queries";
+import { useMutation, useQuery } from "@apollo/client";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -16,7 +17,9 @@ export default function CourseIndex() {
     const navigation = useNavigation();
     const [userData, setUserData] = useState<any>();
     const [joinCourse] = useMutation(ADD_COURSE_TO_USER);
-
+    const {data} = useQuery<any>(QUERY_COURSES_COUNT_BY_COURSE_ID, {
+        variables: { courseId: Number(id) },
+    });
     useEffect(() => {
         auth.getProfile().then((profile) => {
             setUserData(profile);
@@ -54,7 +57,7 @@ export default function CourseIndex() {
             <Text style={styles.description}>{lesson?.description}</Text>
             <View style={styles.infoHolder}>
                 <Text style={styles.label}>Number of quizzes: <Text style={styles.text}>{lesson?.numberOfQuizzes}</Text></Text>
-                <Text style={styles.label}>People joined this course: <Text style={styles.text}>3</Text></Text>
+                <Text style={styles.label}>People joined this course: <Text style={styles.text}>{data && data.userCoursesCountByCourseId}</Text></Text>
             </View>
             <View style={styles.button}>
             <CustomBtn 
@@ -68,7 +71,11 @@ export default function CourseIndex() {
                                     variables: { courseId: Number(id), username: userData?.username },
                                 }).then((res) => {
                                     if(res){
-                                        Alert.alert('Success', 'You have successfully joined the course');
+                                        if(res.errors){
+                                            Alert.alert('Failed', 'You have joined this course already');
+                                        } else {
+                                            Alert.alert('Success', 'You have successfully joined the course');
+                                        }
                                     }
                                     else{
                                         Alert.alert('Failed', 'An unexpected error occurred or you may have joined this course already');

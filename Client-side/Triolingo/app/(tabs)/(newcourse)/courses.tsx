@@ -52,8 +52,11 @@ export default function Courses() {
                     if(res){
                         Alert.alert('Success', 'You have successfully joined the course');
                     }
+                    else if(res === false){
+                        Alert.alert('Failed', 'You have joined this course already');
+                    }
                     else{
-                        Alert.alert('Failed', 'An unexpected error occurred or you may have joined this course already');
+                        Alert.alert('Failed', 'An unexpected error occurred');
                     }
                 });
 

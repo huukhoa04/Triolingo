@@ -3,8 +3,8 @@ import IconBtn from '@/components/IconBtn';
 import { ButtonStyle } from '@/constants/ButtonTheme';
 import { Root } from '@/constants/root.css';
 import { Lesson, LessonHandler } from '@/courseData/Lesson.json';
-import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useFocusEffect, useRouter } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import Test from '../test';
 import { TestData } from '@/constants/SampleData.json';
@@ -25,15 +25,17 @@ export default function Tab() {
     skip: !user, // Skip query until user is set
   });
 
-  useEffect(() => {
+  useFocusEffect(
     // console.log(LessonHandler.getLesson(1));
-    auth.getProfile().then((profile) => {
-      setUser(profile);
-      if (profile) {
-        refetch({ username: profile.username });
-      }
-    });
-  }, []);
+    React.useCallback(() => {
+      auth.getProfile().then((profile) => {
+        setUser(profile);
+        if (profile) {
+          refetch({ username: profile.username });
+        }
+      });
+    }, [])  
+  );
 
   useEffect(() => {
     if (data) {
@@ -53,6 +55,7 @@ export default function Tab() {
         <Text style={styles.label}>In progress</Text>
         {/*Todo: Solveed this (12/04/2024)*/}
           {
+          userData && 
           userData.filter((course: any) => course.isCompleted === false && course.visible === true).length > 0?
           userData
           .filter((course: any) => course.isCompleted === false && course.visible === true)
@@ -82,6 +85,7 @@ export default function Tab() {
           }
         <Text style={styles.label}>Completed</Text>
         {
+          userData &&
           userData.filter((course: any) => course.isCompleted === true && course.visible === true).length > 0?
           userData
           .filter((course: any) => course.isCompleted === true && course.visible === true)

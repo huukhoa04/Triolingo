@@ -1,4 +1,5 @@
 import CustomBtn from "@/components/CustomBtn";
+import IconBtn from "@/components/IconBtn";
 import PageIndicator from "@/components/PageIndicator";
 import AnswerCheckAlert from "@/components/quizzes/AnswerCheckAlert";
 import CharacterLesson from "@/components/quizzes/CharacterLesson";
@@ -8,11 +9,11 @@ import { LessonHandler } from "@/courseData/Lesson.json";
 import { UserData } from "@/interface/UserData";
 import auth from "@/utils/auth";
 import { UPDATE_COURSE_STATS, UPDATE_EXPERIENCE } from "@/utils/mutations";
-import { QUERY_ME } from "@/utils/queries";
+import { QUERY_COURSE_BY_USER_AND_COURSE_ID, QUERY_ME } from "@/utils/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 export default function LearningScreen() {
     //test quizzes
     //get question tuples from SampleQuizzes
@@ -27,8 +28,15 @@ export default function LearningScreen() {
     const [totalCorrected, setTotalCorrected] = useState(0);
     const [updateCourse] = useMutation(UPDATE_COURSE_STATS);
     const [updateExperience] = useMutation(UPDATE_EXPERIENCE);
-    const {data, refetch} = useQuery<any>(QUERY_ME, {
+    const {data: userDataQuery, refetch} = useQuery<any>(QUERY_ME, {
         skip: !userData,
+    });
+    const {data: courseDataQuery, refetch: refetchCourse} = useQuery<any>(QUERY_COURSE_BY_USER_AND_COURSE_ID, {
+        variables: {
+            username: userData?.username,
+            courseId: Number(courseId),
+        },
+        skip: !userData
     });
     const router = useRouter();
     useEffect(() => {
@@ -49,6 +57,9 @@ export default function LearningScreen() {
             setLesson(LessonHandler.getLesson(Number(courseId)) || null);
             console.log("Screen focused, state reset");
             setLoading(false);
+            return () => {
+                setLoading(true);
+            }
         }, [])
     );
     if (loading) 
@@ -84,6 +95,22 @@ export default function LearningScreen() {
                     isCompleted: true,
                     visible: true,
                 }));
+                if(courseDataQuery?.userCoursesByUserAndCourseId[0].isCompleted === false){
+                    updateExperience({
+                        variables: {
+                            username: userData?.username,
+                            experience: userDataQuery?.me.experience + 10 + totalCorrected,
+                        }
+                    });
+                }
+                else {
+                    updateExperience({
+                        variables: {
+                            username: userData?.username,
+                            experience: userDataQuery?.me.experience + (Number(highestCorrect) < totalCorrected? totalCorrected - Number(highestCorrect)  : 0),
+                        }
+                    });
+                }
                 updateCourse({
                     variables: {
                         username: userData?.username,
@@ -92,12 +119,6 @@ export default function LearningScreen() {
                         highestCorrected: Number(highestCorrect) > totalCorrected? highestCorrect : totalCorrected,
                         isCompleted: true,
                         visible: true,
-                    }
-                });
-                updateExperience({
-                    variables: {
-                        username: userData?.username,
-                        experience: data?.me.experience,
                     }
                 });
                 router.push({
@@ -189,9 +210,23 @@ export default function LearningScreen() {
                     <View style={styles.quiz}>
                         {renderQuiz()}
                     </View>
-                    <View style={styles.btnHolder}>
-                        <CustomBtn type={"red"} title="Quit" onPress={handleQuit}/>
-                    </View>               
+                    <IconBtn 
+                        icon="close"
+                        onPress={() => {
+                            return Alert.alert('Quit', 'Are you sure you want to quit this course?', [{
+                                text: 'Yes',
+                                onPress: () => {
+                                    handleQuit();
+                                }
+                            }, {
+                                text: 'No',
+                                onPress: () => {
+                                    return;
+                                }
+                            }]);
+                        }}
+                    />
+                                  
                 </View>
             </>
         );}
@@ -202,15 +237,18 @@ const styles = StyleSheet.create({
         paddingTop: 60,
         justifyContent: 'flex-start',
         alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        rowGap: 20,
     },
     quiz: {
         flex: 1,
         width: '100%',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
     },
     btnHolder: {
-        flex: 1,
+        // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     }

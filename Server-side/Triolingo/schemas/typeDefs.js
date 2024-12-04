@@ -35,6 +35,10 @@ const typeDefs = gql`
     user(username: String!): User
     userCourses: [UserCourse]
     userCoursesByUsername(username: String!): [UserCourse]
+    userCoursesByCourseId(courseId: Int!): [UserCourse]
+    userCoursesCountByCourseId(courseId: Int!): Int
+    userCoursesCountByUsername(username: String!): Int
+    userCoursesByUserAndCourse(username: String!, courseId: Int!): UserCourse
   }
 
   type Mutation {

@@ -4,13 +4,11 @@ const userCourseSchema = new Schema({
     username: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
     },
     courseId: {
         type: Number,
         required: true,
-        unique: true,
     },
     dateJoined: {
         type: Date,
@@ -45,6 +43,6 @@ const userCourseSchema = new Schema({
 
     //add course stats for user
 })
-
+userCourseSchema.index({ username: 1, courseId: 1 }, { unique: true });
 const UserCourse = model('userCourse', userCourseSchema);
 export default UserCourse;

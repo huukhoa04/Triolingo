@@ -40,7 +40,18 @@ const resolvers = {
     userCoursesByUsername: async (parent, { username }) => {
       return UserCourse.find({ username }).select('-__v');
     },
-
+    userCoursesByCourseId: async (parent, { courseId }) => {
+      return UserCourse.find({ courseId }).select('-__v');
+    },
+    userCoursesCountByCourseId: async (parent, { courseId }) => {
+      return UserCourse.countDocuments({ courseId: courseId });
+    },
+    userCoursesCountByUsername: async (parent, { username }) => {
+      return UserCourse.countDocuments({ username: username });
+    },
+    userCoursesByUserAndCourse: async (parent, { username, courseId }) => {
+      return UserCourse.findOne({ username, courseId }).select('-__v');
+    },
 
 
   },
@@ -97,7 +108,19 @@ const resolvers = {
       if (context.user) {
         const check = await UserCourse.findOne({ username: args.username, courseId: args.courseId });
         if (check) {
-          return null;
+          if(check.visible === false) {
+            console.log('deleted');
+            const updatedCourse = await UserCourse.findOneAndUpdate(
+              { username: args.username, courseId: args.courseId },
+              { $set: { visible: true } },
+              { new: true }
+            );
+            return updatedCourse;
+          }
+          else {
+            console.log('visible');
+            return false;
+          }
         }
         else {
           const userCourse = await UserCourse.create(args);
