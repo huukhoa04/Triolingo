@@ -36,23 +36,31 @@ export const UPDATE_EXPERIENCE = gql`
 `;
 
 export const ADD_COURSE_TO_USER = gql`
-  mutation addCourseToUser($username: String!, $courseId: Number!) {
+  mutation addCourseToUser($username: String!, $courseId: Int!) {
     addCourseToUser(username: $username, courseId: $courseId) {
       _id
       username
       courseId
-      total
     }
   }
 `;
 
 export const UPDATE_COURSE_STATS = gql`
-  mutation updateCourse($courseId: Number!, $highestCorrected: Number, $timeLearned: Number, $visible: Boolean) {
-    updateCourse(courseId: $courseId, highestCorrected: $highestCorrected, timeLearned: $timeLearned, visible: $visible) {
+  mutation updateCourse($username: String! ,$courseId: Int!, $highestCorrected: Int, $timeLearned: Int, $isCompleted: Boolean, $visible: Boolean) {
+    updateCourse(
+    username: $username, 
+    courseId: $courseId, 
+    highestCorrected: $highestCorrected, 
+    timeLearned: $timeLearned, 
+    isCompleted: $isCompleted, 
+    visible: $visible) 
+    {
       _id
       username
       courseId
+      dateJoined
       highestCorrected
+      total
       timeLearned
       isCompleted
       visible

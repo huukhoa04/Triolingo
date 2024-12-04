@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { View, Text, TextInput, Button, StyleSheet, Image } from 'react-native';
 import { Root } from '@/constants/root.css';
@@ -17,7 +17,6 @@ export default function Login(){
     const router = useRouter();
     
     const [login] = useMutation(LOGIN);
-
     const handleLogin = async () => {
         setIsLoading(true); // Set loading state to true
         setErrorMessage(''); // Reset error message before attempting login

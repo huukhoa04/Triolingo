@@ -43,7 +43,6 @@ export default function Courses() {
       }, [navigation]);
       //TODO: Handle Join Course
     const handleJoin = (index: number) => {
-        console.log("user data", userData);
         return () => {Alert.alert('Join Course', `Are you sure you want to join this course? ${index}`, [{
             text: 'Yes',
             onPress: async () => {
@@ -54,7 +53,7 @@ export default function Courses() {
                         Alert.alert('Success', 'You have successfully joined the course');
                     }
                     else{
-                        Alert.alert('Failed', 'Error joining the course');
+                        Alert.alert('Failed', 'An unexpected error occurred or you may have joined this course already');
                     }
                 });
 
@@ -84,9 +83,7 @@ export default function Courses() {
                     label={course.title}
                     text={course.description}
                     id={course.id}
-                    join={() => {
-                        handleJoin(course.id);
-                    }}
+                    join={handleJoin(course.id)}
                     info={handleRedirect(course.id)}
                 />
             )

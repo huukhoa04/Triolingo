@@ -19,26 +19,27 @@ const userCourseSchema = new Schema({
     },
     highestCorrected: {
         type: Number,
-        required: true,
+        // required: true,
         default: 0,
     },
     total: {
         type: Number,
-        required: true, 
+        // required: true,
+        default: 30,
     },
     timeLearned: {
         type: Number,
-        required: true,
+        // required: true,
         default: 0,
     },
     isCompleted: {
         type: Boolean,
-        required: true,
+        // required: true,
         default: false,
     },
     visible: {
         type: Boolean,
-        required: true,
+        // required: true,
         default: true,
     },
 

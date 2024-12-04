@@ -18,22 +18,29 @@ import { UserData } from '@/interface/UserData';
 export default function Tab() {
   const router = useRouter();
   //test
-  const [user, setUser] = useState<UserData>();
-  // data receiver
-  const [userData, setUserData] = useState<userCourses[]>([]);
-  //fetch userCourses
-  const {loading, data} = useQuery<{userCourses: userCourses[]}>(QUERY_COURSES_BY_USER, {
-    variables: {username: user?.username},
-    pollInterval: 500,
+  const [user, setUser] = useState<UserData | null>(null);
+  const [userData, setUserData] = useState<any>();
+  const { loading, data, refetch } = useQuery<any>(QUERY_COURSES_BY_USER, {
+    variables: { username: user?.username },
+    skip: !user, // Skip query until user is set
   });
+
   useEffect(() => {
+    // console.log(LessonHandler.getLesson(1));
     auth.getProfile().then((profile) => {
       setUser(profile);
+      if (profile) {
+        refetch({ username: profile.username });
+      }
     });
-    if (data) {
-      setUserData(data.userCourses); //assign all data to userData
-    }
   }, []);
+
+  useEffect(() => {
+    if (data) {
+      setUserData(data.userCoursesByUsername);
+      // console.log(data.userCoursesByUsername);
+    }
+  }, [data]);
   return (
     <>
     <ScrollView contentContainerStyle={styles.container}>
@@ -44,10 +51,13 @@ export default function Tab() {
         ) : (
         <>
         <Text style={styles.label}>In progress</Text>
+        {/*Todo: Solveed this (12/04/2024)*/}
           {
-          userData.length > 0 ?
-          userData.filter((course) => course.isCompleted === false).map((course, index) => {
-            <CourseCard 
+          userData.filter((course: any) => course.isCompleted === false && course.visible === true).length > 0?
+          userData
+          .filter((course: any) => course.isCompleted === false && course.visible === true)
+          .map((course: any, index: number) => 
+            <CourseCard
               key={index}
               part={course.highestCorrected}
               all={course.total}
@@ -66,7 +76,37 @@ export default function Tab() {
                 });
               }}
             />
-          }):
+          )
+          :
+          <Text style={styles.subLabel}>No course available</Text>
+          }
+        <Text style={styles.label}>Completed</Text>
+        {
+          userData.filter((course: any) => course.isCompleted === true && course.visible === true).length > 0?
+          userData
+          .filter((course: any) => course.isCompleted === true && course.visible === true)
+          .map((course: any, index: number) => 
+            <CourseCard
+              key={index}
+              part={course.highestCorrected}
+              all={course.total}
+              title={LessonHandler.getLesson(course.courseId)?.title}
+              flag={LessonHandler.getLesson(course.courseId)?.lang}
+              onPress={() => {
+                router.push({
+                  pathname: './attendedcourse',
+                  params: {
+                    courseId: course.courseId,
+                    dateJoined: course.dateJoined,
+                    times: course.timeLearned,
+                    highestCorrect: course.highestCorrected,
+                    total: course.total,
+                  },
+                });
+              }}
+            />
+          )
+          :
           <Text style={styles.subLabel}>No course available</Text>
           }
         </>

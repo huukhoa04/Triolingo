@@ -41,8 +41,14 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     updateExperience(experience: Int!): User
-    addCourseToUser(username: String!, courseId: Int!, total: Int!): UserCourse
-    updateCourse(username: String!, courseId: Int!, highestCorrected: Int, timeLearned: Int, isCompleted: Boolean, visible: Boolean): UserCourse
+    addCourseToUser(username: String!, courseId: Int!): UserCourse
+    updateCourse(
+    username: String!, 
+    courseId: Int!, 
+    highestCorrected: Int, 
+    timeLearned: Int, 
+    isCompleted: Boolean, 
+    visible: Boolean): UserCourse
   }
 `;
 

@@ -95,8 +95,14 @@ const resolvers = {
 
     addCourseToUser: async (parent, args, context) => {
       if (context.user) {
-        const userCourse = await UserCourse.create(args);
-        return userCourse;
+        const check = await UserCourse.findOne({ username: args.username, courseId: args.courseId });
+        if (check) {
+          return null;
+        }
+        else {
+          const userCourse = await UserCourse.create(args);
+          return userCourse;
+        }
       }
       throw new AuthenticationError('You need to be logged in!');
     },
@@ -104,7 +110,7 @@ const resolvers = {
     updateCourse: async (parent, args, context) => {
       if (context.user) {
         const updatedCourse = await UserCourse.findOneAndUpdate(
-          { username: context.user.username, courseId: args.courseId },
+          { username: args.username, courseId: args.courseId },
           { $set: args },
           { new: true }
         );

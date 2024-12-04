@@ -15,12 +15,16 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from "react";
 import { ApolloProvider, InMemoryCache, ApolloClient } from '@apollo/client';
 import Login from "./login";
+import client from '@/utils/apolloClient';
 import { Root } from "@/constants/root.css";
 SplashScreen.preventAutoHideAsync();
-const client = new ApolloClient({
-  uri: 'http://localhost:5000/graphql', // Thay đổi nếu cần
-  cache: new InMemoryCache(),
-});
+
+
+
+// const client = new ApolloClient({
+//   uri: 'http://192.168.1.50:5000/graphql', // Thay đổi nếu cần
+//   cache: new InMemoryCache(),
+// });
 
 export default function RootLayout() {
   const noHeader: any = {

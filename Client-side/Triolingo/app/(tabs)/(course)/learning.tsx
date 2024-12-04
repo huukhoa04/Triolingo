@@ -1,3 +1,4 @@
+import CustomBtn from "@/components/CustomBtn";
 import PageIndicator from "@/components/PageIndicator";
 import AnswerCheckAlert from "@/components/quizzes/AnswerCheckAlert";
 import CharacterLesson from "@/components/quizzes/CharacterLesson";
@@ -6,8 +7,9 @@ import { MultipleChoicesQuiz, QuizType } from "@/constants/QuizDefinitions.d";
 import { LessonHandler } from "@/courseData/Lesson.json";
 import { UserData } from "@/interface/UserData";
 import auth from "@/utils/auth";
-import { UPDATE_COURSE_STATS } from "@/utils/mutations";
-import { useMutation } from "@apollo/client";
+import { UPDATE_COURSE_STATS, UPDATE_EXPERIENCE } from "@/utils/mutations";
+import { QUERY_ME } from "@/utils/queries";
+import { useMutation, useQuery } from "@apollo/client";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -24,12 +26,21 @@ export default function LearningScreen() {
     const [loading, setLoading] = useState(true);
     const [totalCorrected, setTotalCorrected] = useState(0);
     const [updateCourse] = useMutation(UPDATE_COURSE_STATS);
+    const [updateExperience] = useMutation(UPDATE_EXPERIENCE);
+    const {data, refetch} = useQuery<any>(QUERY_ME, {
+        skip: !userData,
+    });
     const router = useRouter();
     useEffect(() => {
         auth.getProfile().then((profile) => {
             setUserData(profile);
         });
-    }, [])
+    }, []);
+    useEffect(() => {
+        if(userData){
+            refetch();
+        }
+    }, [userData]);
     useFocusEffect(
         React.useCallback(() => {
             setSelected(false);
@@ -65,23 +76,37 @@ export default function LearningScreen() {
             setCorrect(0);
             setSelected(false);
             if(currentQuizIndex === lesson.numberOfQuizzes - 1){
+                console.log("Course completed:" + JSON.stringify({
+                    username: userData?.username,
+                    courseId: Number(courseId),
+                    times: Number(times) + 1,
+                    highestCorrect: Number(highestCorrect) > totalCorrected? highestCorrect : totalCorrected,
+                    isCompleted: true,
+                    visible: true,
+                }));
                 updateCourse({
                     variables: {
                         username: userData?.username,
-                        courseId: courseId,
+                        courseId: Number(courseId),
                         timeLearned: Number(times) + 1,
                         highestCorrected: Number(highestCorrect) > totalCorrected? highestCorrect : totalCorrected,
-                        total: lesson.numberOfQuizzes,
                         isCompleted: true,
+                        visible: true,
                     }
                 });
-
+                updateExperience({
+                    variables: {
+                        username: userData?.username,
+                        experience: data?.me.experience,
+                    }
+                });
                 router.push({
                     pathname: './complete',
                     params: {
                         courseId: courseId,
                         corrected: totalCorrected,
                         total: lesson.numberOfQuizzes,
+                        isCompleted: "true",
                     },
                 })
             }
@@ -118,6 +143,29 @@ export default function LearningScreen() {
                     );
             }
         }
+        const handleQuit = () => {
+            if(currentQuizIndex !== lesson.numberOfQuizzes - 1){
+                updateCourse({
+                    variables: {
+                        username: userData?.username,
+                        courseId: Number(courseId),
+                        timeLearned: Number(times) + 1,
+                        highestCorrected: Number(highestCorrect) > totalCorrected? highestCorrect : totalCorrected,
+                        isCompleted: false,
+                        visible: true,
+                    }
+                });
+                router.push({
+                    pathname: './complete',
+                    params: {
+                        courseId: courseId,
+                        corrected: totalCorrected,
+                        total: lesson.numberOfQuizzes,
+                        isCompleted: "false",
+                    },
+                })
+            }
+        };
         return (
             <>
                 {/* LearningScreen */}
@@ -137,8 +185,13 @@ export default function LearningScreen() {
                             :
                             null}
                 <View style={styles.container}>
-                <PageIndicator current={currentQuizIndex+1} total={lesson.numberOfQuizzes}/>
-                    {renderQuiz()}
+                    <PageIndicator current={currentQuizIndex+1} total={lesson.numberOfQuizzes}/>
+                    <View style={styles.quiz}>
+                        {renderQuiz()}
+                    </View>
+                    <View style={styles.btnHolder}>
+                        <CustomBtn type={"red"} title="Quit" onPress={handleQuit}/>
+                    </View>               
                 </View>
             </>
         );}
@@ -148,6 +201,17 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 60,
         justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    quiz: {
+        flex: 1,
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    btnHolder: {
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
     }
 });

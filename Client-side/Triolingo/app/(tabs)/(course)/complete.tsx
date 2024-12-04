@@ -3,19 +3,30 @@ import { Assets } from "@/constants/Assets";
 import { Root } from "@/constants/root.css";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import CircularProgress from "react-native-circular-progress-indicator";
 
 export default function Complete() {
     const router = useRouter();
-    const {courseId, corrected, total} = useLocalSearchParams();
+    const {courseId, corrected, total, isCompleted} = useLocalSearchParams();
     const percentage = Math.round((Number(corrected) / Number(total)) * 100);
     return(
         <>
-        <Image src={Assets.completeBg} style={styles.wrapper}/>
+        <ImageBackground source={Assets.completeBg} style={styles.wrapper}>
             <View style={styles.container}>
-                <Text style={styles.title}>Completed</Text>
-                <Text style={styles.sub}>You have completed the course</Text>
+                {isCompleted === 'true' ?
+                
+                <>
+                    <Text style={styles.title}>Completed</Text>
+                    <Text style={styles.sub}>You have completed the test</Text>
+                </>
+                :
+                <>
+                    <Text style={styles.title}>Incompleted</Text>
+                    <Text style={styles.sub}>You have quitted completing the test</Text>
+                </>    
+                }
+                
                 <CircularProgress
                             title="Corrected"
                             value={percentage}
@@ -50,6 +61,7 @@ export default function Complete() {
                     
                     />
             </View>
+            </ImageBackground>
         </>
     )
 }
@@ -61,6 +73,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         display: 'flex',
         flexDirection: 'column',
+        rowGap: 10,
    },
    title: {
         fontFamily: Root.fontStyle.semibold,
