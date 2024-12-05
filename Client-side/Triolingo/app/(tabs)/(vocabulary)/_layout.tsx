@@ -30,6 +30,13 @@ export default function VocabLayout(){
           }}
         />
         <Stack.Screen
+          name="vocabDetail"
+          options={{
+            title: 'Vocabulary',
+            headerTitleAlign: 'center',
+          }}
+        />
+        <Stack.Screen
           name="word"
           options={{
             title: 'Vocabulary',

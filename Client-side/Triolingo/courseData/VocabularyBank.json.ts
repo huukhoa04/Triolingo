@@ -1,3 +1,5 @@
+import { CourseLangType } from "@/interface/CourseLangType";
+
 export interface Word {
     id: number;
     word: string;
@@ -13,6 +15,7 @@ export interface Vocabulary {
     id: number;
     title: string;
     desc: string;
+    lang: string;
     words: Word[];
 }
 
@@ -21,12 +24,14 @@ export class VocabularyClass implements Vocabulary {
         public id: number,
         public title: string,
         public desc: string,
+        public lang: string,
         public words: Word[]
+
     ) {}
 }
 
 export const VocabularyBank: Vocabulary[] = [
-    new VocabularyClass(1, "Greeting", "Basic Vocabulary about Greeting", [
+    new VocabularyClass(1, "Greeting", "Basic Vocabulary about Greeting", CourseLangType.JAPANESE, [
         {
             id: 1,
             word: "こんにちは",
@@ -116,7 +121,7 @@ export const VocabularyBank: Vocabulary[] = [
             romaji: "hai"
         },
     ]),
-    new VocabularyClass(2, "Education", "Education themed vocabulary", [
+    new VocabularyClass(2, "Education", "Education themed vocabulary", CourseLangType.JAPANESE,[
         {
             id: 1,
             word: "学校",
@@ -206,7 +211,7 @@ export const VocabularyBank: Vocabulary[] = [
             romaji: "shiken"
         },
     ]),
-    new VocabularyClass(3, "Family", "Vocabulary about family", [
+    new VocabularyClass(3, "Family", "Vocabulary about family", CourseLangType.JAPANESE,[
         {
             id: 1,
             word: "家族",
@@ -297,3 +302,15 @@ export const VocabularyBank: Vocabulary[] = [
         },
     ]),
 ]
+
+export const VocabularyHandler = {
+    getVocabulary: (id: number) => {
+        return VocabularyBank.find(v => v.id === id);
+    },
+    getVocabularyByLang: (lang: string) => {
+        return VocabularyBank.filter(v => v.lang === lang);
+    },
+    getWordByVocabulary: (id: number, wordId: number) => {
+        return VocabularyBank.find(v => v.id === id)?.words.find(w => w.id === wordId);
+    }
+}

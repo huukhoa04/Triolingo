@@ -67,7 +67,26 @@ export const UPDATE_COURSE_STATS = gql`
     }
   }
 `;
-
+export const ADD_BOOKMARK = gql`
+  mutation addBookmark($username: String!, $vocabId: Int!, $wordId: Int!) {
+    addBookmark(username: $username, vocabId: $vocabId, wordId: $wordId) {
+      _id
+      username
+      vocabId
+      wordId
+    }
+  }
+`
+export const REMOVE_BOOKMARK = gql`
+  mutation removeBookmark($username: String!, $vocabId: Int!, $wordId: Int!) {
+    removeBookmark(username: $username, vocabId: $vocabId, wordId: $wordId) {
+      _id
+      username
+      vocabId
+      wordId
+    }
+  }
+`
 //TODO: 
 //MUTATION: addCourseToUser (add userCourse)
 //MUTATION: removeCourseFromUser (remove userCourse)

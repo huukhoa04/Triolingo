@@ -110,5 +110,15 @@ export const QUERY_COURSE_BY_USER_AND_COURSE_ID = gql`
     }
   }
 `
+export const QUERY_BOOKMARKS_BY_USERNAME = gql`
+ query getBookmarksByUsername($username: String!) {
+  getBookmarksByUsername(username: $username) {
+    _id
+    username
+    vocabId
+    wordId
+  }
+ }
+`
 //TODO:
 // QUERY getCourseByUserId (getALl userCourse by userId)

@@ -2,6 +2,7 @@ import User from "../models/user.js";
 import { AuthenticationError } from 'apollo-server-express';
 import { signToken } from '../utils/auth.js';
 import UserCourse from "../models/userCourse.js";
+import Bookmark from "../models/bookmark.js";
 
 const resolvers = {
   Query: {
@@ -52,7 +53,9 @@ const resolvers = {
     userCoursesByUserAndCourse: async (parent, { username, courseId }) => {
       return UserCourse.findOne({ username: username, courseId: courseId }).select('-__v');
     },
-
+    getBookmarksByUsername: async (parent, { username }) => {
+      return Bookmark.find({ username: username}).select('-__v'); 
+    },
 
   },
   Mutation: {
@@ -138,6 +141,20 @@ const resolvers = {
           { new: true }
         );
         return updatedCourse;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+    addBookmark: async (parent, args, context) => {
+      if (context.user) {
+        const bookmark = await Bookmark.create(args);
+        return bookmark;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+    removeBookmark: async (parent, args, context) => {
+      if (context.user) {
+        const bookmark = await Bookmark.findOneAndDelete({ username: args.username, vocabId: args.vocabId, wordId: args.wordId });
+        return bookmark;
       }
       throw new AuthenticationError('You need to be logged in!');
     },

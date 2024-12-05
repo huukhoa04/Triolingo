@@ -24,6 +24,13 @@ const typeDefs = gql`
     visible: Boolean
   }
 
+  type Bookmark {
+    _id: ID
+    username: String
+    vocabId: Int
+    wordId: Int
+  }
+
   type Auth {
     token: ID!
     user: User
@@ -39,6 +46,7 @@ const typeDefs = gql`
     userCoursesCountByCourseId(courseId: Int!): Int
     userCoursesCountByUsername(username: String!): Int
     userCoursesByUserAndCourse(username: String!, courseId: Int!): UserCourse
+    getBookmarksByUsername(username: String!): [Bookmark]
   }
 
   type Mutation {
@@ -53,6 +61,8 @@ const typeDefs = gql`
     timeLearned: Int, 
     isCompleted: Boolean, 
     visible: Boolean): UserCourse
+    addBookmark(username: String!, vocabId: Int!, wordId: Int!): Bookmark
+    removeBookmark(username: String!, vocabId: Int!, wordId: Int!): Bookmark
   }
 `;
 

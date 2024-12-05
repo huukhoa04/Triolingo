@@ -108,11 +108,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="(vocabulary)"
         options={{
-          href: null,
           headerShown: false,
-          tabBarStyle: {
-            display: 'none',
-          }
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="book" color={color} />,
         }}
       />
       <Tabs.Screen
