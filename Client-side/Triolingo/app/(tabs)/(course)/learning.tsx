@@ -5,6 +5,7 @@ import AnswerCheckAlert from "@/components/quizzes/AnswerCheckAlert";
 import CharacterLesson from "@/components/quizzes/CharacterLesson";
 import SentenceCompletion from "@/components/quizzes/SentenceCompletion";
 import { MultipleChoicesQuiz, QuizType } from "@/constants/QuizDefinitions.d";
+import { Root } from "@/constants/root.css";
 import { LessonHandler } from "@/courseData/Lesson.json";
 import { UserData } from "@/interface/UserData";
 import auth from "@/utils/auth";
@@ -47,6 +48,7 @@ export default function LearningScreen() {
     useEffect(() => {
         if(userData){
             refetch();
+            refetchCourse();
         }
     }, [userData]);
     useFocusEffect(
@@ -95,7 +97,8 @@ export default function LearningScreen() {
                     isCompleted: true,
                     visible: true,
                 }));
-                if(courseDataQuery?.userCoursesByUserAndCourseId[0].isCompleted === false){
+                if(courseDataQuery?.userCoursesByUserAndCourse.isCompleted === false){
+                    console.log("Updating exp 1");
                     updateExperience({
                         variables: {
                             username: userData?.username,
@@ -104,6 +107,7 @@ export default function LearningScreen() {
                     });
                 }
                 else {
+                    console.log("Updating exp 2");
                     updateExperience({
                         variables: {
                             username: userData?.username,
@@ -206,26 +210,37 @@ export default function LearningScreen() {
                             :
                             null}
                 <View style={styles.container}>
+                    {courseDataQuery && console.log(courseDataQuery)}
+                    {userDataQuery && console.log(userDataQuery)}
                     <PageIndicator current={currentQuizIndex+1} total={lesson.numberOfQuizzes}/>
                     <View style={styles.quiz}>
                         {renderQuiz()}
                     </View>
-                    <IconBtn 
-                        icon="close"
-                        onPress={() => {
-                            return Alert.alert('Quit', 'Are you sure you want to quit this course?', [{
-                                text: 'Yes',
-                                onPress: () => {
-                                    handleQuit();
-                                }
-                            }, {
-                                text: 'No',
-                                onPress: () => {
-                                    return;
-                                }
-                            }]);
-                        }}
-                    />
+                    <View style={styles.btnHolder}>
+                        <IconBtn
+                            type={"default"}
+                            name="close"
+                            style={{
+                                backgroundColor: Root.primaryTheme.bgColor,
+                                padding: 10,
+                                paddingHorizontal: 15,
+                                borderRadius: 25,
+                            }}
+                            onPress={() => {
+                                return Alert.alert('Quit', 'Are you sure you want to quit this course?', [{
+                                    text: 'Yes',
+                                    onPress: () => {
+                                        handleQuit();
+                                    }
+                                }, {
+                                    text: 'No',
+                                    onPress: () => {
+                                        return;
+                                    }
+                                }]);
+                            }}
+                        />
+                    </View>
                                   
                 </View>
             </>
@@ -248,7 +263,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     btnHolder: {
-        // flex: 1,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     }

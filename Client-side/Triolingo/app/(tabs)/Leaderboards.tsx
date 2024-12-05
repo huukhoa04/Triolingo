@@ -22,7 +22,16 @@ const Leaderboards = () => {
   useFocusEffect(
     React.useCallback(() => {
       if(data){
-        setUser(data.users.sort((a, b) => b.experience - a.experience));
+        setUser(data.users.reduce((acc: any, user: any) => {
+          const index = acc.findIndex((u: any) => u.experience < user.experience);
+          if (index === -1) {
+            acc.push(user);
+          } else {
+            acc.splice(index, 0, user);
+          }
+          return acc;
+        }, []));
+      
       }
     }, [data])
   )

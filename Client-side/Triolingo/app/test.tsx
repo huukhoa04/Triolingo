@@ -10,6 +10,8 @@ import KanaPopUpCard from "@/components/kana/KanaPopUpCard";
 import SectionOption from "@/components/kana/SectionOption";
 import PageIndicator from "@/components/PageIndicator";
 import TestComponent from "@/components/TestComponent";
+import VocabCard from "@/components/vocabulary/VocabCard";
+import WordCard from "@/components/vocabulary/WordCard";
 import { Assets } from "@/constants/Assets";
 import auth from "@/utils/auth";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -35,7 +37,19 @@ export default function Test(){
     const lorem = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, vitae. Et quasi illum veniam repellat, temporibus ab. Odit, provident voluptates debitis eaque, voluptatibus eum repellendus ullam veritatis iure minima numquam!"
     return(
         <>
-            {userData && userData.username}
+            <ScrollView contentContainerStyle={{ 
+                justifyContent: 'flex-start', 
+                alignItems: 'center', 
+                flexDirection: 'column',
+                rowGap: 10,
+                padding: 10,
+                }}
+            >
+                <VocabCard index={1} title={'Vocab 1'} desc={'Description 1'} onPress={() => {}}/>
+                <VocabCard index={2} title={'Vocab 2'} desc={'Description 2'} onPress={() => {}}/>
+                <VocabCard index={3} title={'Vocab 3'} desc={'Description 3'} onPress={() => {}}/>
+                <WordCard index={1} title={'Word 1'} desc={'Description 1'} onPress={() => {}}/>
+            </ScrollView>
         </>
         // <ScrollView contentContainerStyle={{ 
         //     justifyContent: 'flex-start', 

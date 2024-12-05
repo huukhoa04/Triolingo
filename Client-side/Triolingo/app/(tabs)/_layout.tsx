@@ -106,6 +106,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="(vocabulary)"
+        options={{
+          href: null,
+          headerShown: false,
+          tabBarStyle: {
+            display: 'none',
+          }
+        }}
+      />
+      <Tabs.Screen
         name="redirect"
         options={{
           href: null,

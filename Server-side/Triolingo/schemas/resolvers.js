@@ -50,7 +50,7 @@ const resolvers = {
       return UserCourse.countDocuments({ username: username });
     },
     userCoursesByUserAndCourse: async (parent, { username, courseId }) => {
-      return UserCourse.findOne({ username, courseId }).select('-__v');
+      return UserCourse.findOne({ username: username, courseId: courseId }).select('-__v');
     },
 
 

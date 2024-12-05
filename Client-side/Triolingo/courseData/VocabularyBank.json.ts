@@ -12,6 +12,7 @@ export interface Word {
 export interface Vocabulary {
     id: number;
     title: string;
+    desc: string;
     words: Word[];
 }
 
@@ -19,12 +20,13 @@ export class VocabularyClass implements Vocabulary {
     constructor(
         public id: number,
         public title: string,
+        public desc: string,
         public words: Word[]
     ) {}
 }
 
 export const VocabularyBank: Vocabulary[] = [
-    new VocabularyClass(1, "Greeting", [
+    new VocabularyClass(1, "Greeting", "Basic Vocabulary about Greeting", [
         {
             id: 1,
             word: "こんにちは",
@@ -114,7 +116,7 @@ export const VocabularyBank: Vocabulary[] = [
             romaji: "hai"
         },
     ]),
-    new VocabularyClass(2, "Education", [
+    new VocabularyClass(2, "Education", "Education themed vocabulary", [
         {
             id: 1,
             word: "学校",
@@ -204,7 +206,7 @@ export const VocabularyBank: Vocabulary[] = [
             romaji: "shiken"
         },
     ]),
-    new VocabularyClass(3, "Family", [
+    new VocabularyClass(3, "Family", "Vocabulary about family", [
         {
             id: 1,
             word: "家族",
