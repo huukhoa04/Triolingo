@@ -53,12 +53,13 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: Root.fontStyle.bold,
         fontSize: 25,
-        lineHeight: 25,
+        lineHeight: 45,
         color: Root.primaryTheme.bgColor,
     },
     desc: {
         fontFamily: Root.fontStyle.regular,
         fontSize: 16,
+        lineHeight: 15,
         color: Root.primaryTheme.bgColor,
     }
 }
