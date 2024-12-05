@@ -1,4 +1,4 @@
-import { CourseLangType } from "@/interface/CourseLangType";
+import { CourseLangType } from "../interface/CourseLangType.d";
 
 export interface Word {
     id: number;

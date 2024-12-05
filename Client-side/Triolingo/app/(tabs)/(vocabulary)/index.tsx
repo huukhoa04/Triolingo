@@ -1,4 +1,4 @@
-import CourseCard from "@/components/CourseCard";
+import CountryCard from "@/components/CountryCard";
 import { LangType } from "@/courseData/LangType.json";
 import { useRouter } from "expo-router";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
@@ -10,9 +10,9 @@ export default function VocabIndex(){
     return (
     <>
     
-            <ScrollView style={styles.container}>
+            <ScrollView contentContainerStyle={styles.container}>
                 {LangList.map((lang, index) => 
-                <CourseCard
+                <CountryCard
                     key={index}
                     flag={lang.code}
                     name={lang.name}

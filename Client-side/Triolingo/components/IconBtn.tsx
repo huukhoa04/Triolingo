@@ -91,7 +91,7 @@ export default function IconBtn(props: any) {
             ...props.style,
             }} onPress={props.onPress}>
             <View>
-                <FontAwesome name={props.name} size={25} color="white" style={{
+                <FontAwesome name={props.name} size={25} color={props.iconColor? props.iconColor : "white"} style={{
                     alignSelf: "center",
                     lineHeight: 30,
                 }}/>

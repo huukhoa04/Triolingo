@@ -1,3 +1,5 @@
+import { model, Schema } from "mongoose";
+
 const bookmarkSchema = new Schema({
     username: {
         type: String,

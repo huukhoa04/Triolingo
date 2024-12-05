@@ -41,7 +41,19 @@ export default function TabLayout() {
             title: 'Attended courses',
             headerShown: true,
             href: null,
-            
+          }
+        }
+      />
+      <Tabs.Screen
+        name='bookmark'
+        options={
+          {
+            title: 'My Bookmarks',
+            headerShown: true,
+            href: null,
+            tabBarStyle: {
+              display: 'none',
+            },
           }
         }
       />
@@ -78,6 +90,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="(vocabulary)"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="book" color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="usermenu"
         options={{
           headerShown: false,
@@ -103,13 +122,6 @@ export default function TabLayout() {
           tabBarStyle: {
             display: 'none',
           }
-        }}
-      />
-      <Tabs.Screen
-        name="(vocabulary)"
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="book" color={color} />,
         }}
       />
       <Tabs.Screen

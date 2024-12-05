@@ -14,6 +14,8 @@ import VocabCard from "@/components/vocabulary/VocabCard";
 import WordCard from "@/components/vocabulary/WordCard";
 import { Assets } from "@/constants/Assets";
 import auth from "@/utils/auth";
+import { QUERY_BOOKMARKS_BY_USERNAME } from "@/utils/queries";
+import { useQuery } from "@apollo/client";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
@@ -27,13 +29,29 @@ export default function Test(){
         {title: 'Option 3'},
         {title: 'Option 4'},
     ]
+    const [user, setUser] = useState<any>();
     const [userData, setUserData] = useState<any>();
+    const {loading, data, refetch} = useQuery<any>(QUERY_BOOKMARKS_BY_USERNAME, {
+        variables: {username: userData?.username},
+        skip: !userData,
+    });
     useEffect(() => {
         auth.getProfile().then((profile) => {
-            setUserData(profile);
+            setUser(profile);
+            refetch({username: profile.username});
             console.log(profile);
         });
     }, []);
+    useEffect(() => {
+        if(data){
+            console.log(data);
+            setUserData(data.getBookmarksByUsername);
+        }
+        return () => {
+            setUserData([]);
+        }
+    }, [data]);
+
     const lorem = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, vitae. Et quasi illum veniam repellat, temporibus ab. Odit, provident voluptates debitis eaque, voluptatibus eum repellendus ullam veritatis iure minima numquam!"
     return(
         <>

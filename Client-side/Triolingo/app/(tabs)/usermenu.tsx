@@ -43,6 +43,16 @@ export default function UserMenu() {
                     }}
                 />
                 <MenuOption 
+                    label='My Bookmark'
+                    name='bookmark'
+                    onPress={() => {
+                        // Navigate to the Profile page
+                        router.push({
+                            pathname: './bookmark',
+                        });
+                    }}
+                />
+                <MenuOption 
                     label='Report issues' 
                     name='exclamation'
                     onPress={() => {

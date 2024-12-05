@@ -4,7 +4,7 @@ import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router"
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native"
 
-export default function Vocabulary(){
+export default function VocabularyPage(){
     const { lang, name } = useLocalSearchParams();
     const router = useRouter();
     const [langCode, setLangCode] = useState<any>();
@@ -32,7 +32,7 @@ export default function Vocabulary(){
 
     return(
         <>
-            <ScrollView style={styles.container}>
+            <ScrollView contentContainerStyle={styles.container}>
                 {loading? 
                 <>
                     <ActivityIndicator size="large" color="#00ff00" style={{}} />
@@ -42,7 +42,7 @@ export default function Vocabulary(){
                     {vocabList?.map((vocab: Vocabulary, index: number) => 
                     <VocabCard 
                         key={index}
-                        index={index}
+                        index={index+1}
                         title={vocab.title}
                         desc={vocab.desc}
                         onPress={() => {
@@ -63,5 +63,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        display: 'flex',
+        flexDirection: 'column',
+        rowGap: 10,
     }
 })
