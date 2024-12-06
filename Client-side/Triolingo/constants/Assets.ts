@@ -23,4 +23,5 @@ export const Assets = {
         }
     }),
     testAudioPath: require('@/assets/audio/test/boom.mp3'),
+    completeBg: require('@/assets/images/QuizzesCompleted.jpg'),
 }

@@ -34,3 +34,60 @@ export const UPDATE_EXPERIENCE = gql`
     }
   }
 `;
+
+export const ADD_COURSE_TO_USER = gql`
+  mutation addCourseToUser($username: String!, $courseId: Int!) {
+    addCourseToUser(username: $username, courseId: $courseId) {
+      _id
+      username
+      courseId
+    }
+  }
+`;
+
+export const UPDATE_COURSE_STATS = gql`
+  mutation updateCourse($username: String! ,$courseId: Int!, $highestCorrected: Int, $timeLearned: Int, $isCompleted: Boolean, $visible: Boolean) {
+    updateCourse(
+    username: $username, 
+    courseId: $courseId, 
+    highestCorrected: $highestCorrected, 
+    timeLearned: $timeLearned, 
+    isCompleted: $isCompleted, 
+    visible: $visible) 
+    {
+      _id
+      username
+      courseId
+      dateJoined
+      highestCorrected
+      total
+      timeLearned
+      isCompleted
+      visible
+    }
+  }
+`;
+export const ADD_BOOKMARK = gql`
+  mutation addBookmark($username: String!, $vocabId: Int!, $wordId: Int!) {
+    addBookmark(username: $username, vocabId: $vocabId, wordId: $wordId) {
+      _id
+      username
+      vocabId
+      wordId
+    }
+  }
+`
+export const REMOVE_BOOKMARK = gql`
+  mutation removeBookmark($username: String!, $vocabId: Int!, $wordId: Int!) {
+    removeBookmark(username: $username, vocabId: $vocabId, wordId: $wordId) {
+      _id
+      username
+      vocabId
+      wordId
+    }
+  }
+`
+//TODO: 
+//MUTATION: addCourseToUser (add userCourse)
+//MUTATION: removeCourseFromUser (remove userCourse)
+//MUTATION: Stats (lưu trong từng userCourse)

@@ -1,9 +1,12 @@
 import CustomBtn from "@/components/CustomBtn";
 import { Root } from "@/constants/root.css";
 import { LessonHandler } from "@/courseData/Lesson.json";
-import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import auth from "@/utils/auth";
+import { UPDATE_COURSE_STATS } from "@/utils/mutations";
+import { useMutation } from "@apollo/client";
+import { useFocusEffect, useLocalSearchParams, useNavigation, useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import CircularProgress from "react-native-circular-progress-indicator";
 import CountryFlag from "react-native-country-flag";
 
@@ -20,12 +23,46 @@ export default function AttendedCourseIndex() {
             });
       }, [navigation]);
 
-
-
     const { courseId, dateJoined, times, highestCorrect, total } = useLocalSearchParams();
-    const [courseInfo, setCourseInfo] = useState(LessonHandler.getLesson(Number(courseId)));
+    const [userData, setUserData] = useState<any>();
+    const [updateCourse] = useMutation(UPDATE_COURSE_STATS);
+    const [courseInfo, setCourseInfo] = useState<any>(LessonHandler.getLesson(Number(courseId)));
+    const [loading, setLoading] = useState(true);
+    // useEffect(() => {
+    //     setCourseInfo(LessonHandler.getLesson(Number(courseId)));
+    //     auth.getProfile().then((profile) => {
+    //         setUserData(profile);
+    //     });
+    // }, []);
+    useFocusEffect(
+        React.useCallback(() => {
+            console.log(courseId);
+            setCourseInfo(LessonHandler.getLesson(Number(courseId)));
+            auth.getProfile().then((profile) => {
+                setUserData(profile);
+            });
+            setLoading(false);
+            return () => {
+                setLoading(true)
+            }
+        }, [courseId])
+    );
+    
     const percentage = Math.round((Number(highestCorrect) / Number(total)) * 100);
     // console.log(title, flag, description, dateAttended, timeLearned, corrected, total);
+    if (loading) 
+        {
+            return(
+                <>
+                    <View style={styles.container}>
+                        <ActivityIndicator size="large" color="#00ff00" style={{
+
+                        }} />
+                    </View>
+                </>
+            )
+        }
+    else
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={Root.flex.row}>
@@ -72,23 +109,34 @@ export default function AttendedCourseIndex() {
                         console.log('start learning logged');
                         router.push({
                             pathname: './(course)/learning',
-                            params: {courseId: courseId},
+                            params: {
+                                courseId: courseId,
+                                times: times,
+                                highestCorrect: highestCorrect,
+                            },
                         });
                     }}
                 />
-                <CustomBtn 
+                {/* <CustomBtn 
                 type="purple"
                     title="Rate this course"
                     onPress={() => {
                         console.log('rate logged');
-                
                     }}
-                />
+                /> */}
                 <CustomBtn 
                     type="red"
                     title="Unattend this course"
                     onPress={() => {
-                        console.log('unattend logged');
+                        updateCourse({
+                            variables: {
+                                username: userData?.username,
+                                courseId: Number(courseId),
+                                visible: false,
+                            }
+                        }).then(() => {
+                            Alert.alert('Unattended', 'You have successfully unattended this course');
+                        });
                     }}
                 />
                 
