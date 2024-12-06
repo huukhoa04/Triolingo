@@ -28,7 +28,7 @@ const Lessons = () => {
           These quizzes are intended to aid you in practicing the material you've learned in each lesson of{' '}
           <Text style={styles.boldText}>Genki: An Integrated Course in Elementary Japanese textbooks (Third Edition)</Text>.
         </Text>
-        <Text style={{ marginTop: 10 }}>Select an exercise from a lesson to begin a quiz.</Text>
+        <Text style={{ marginTop: 10 }}>Select an exercise from a lesson to begin a quiz and choose the icon to see the vocabulary.</Text>
       </View>
 
       {/* Lessons */}
