@@ -1,6 +1,8 @@
 import User from "../models/user.js";
 import { AuthenticationError } from 'apollo-server-express';
 import { signToken } from '../utils/auth.js';
+import UserCourse from "../models/userCourse.js";
+import Bookmark from "../models/bookmark.js";
 
 const resolvers = {
   Query: {
@@ -28,6 +30,33 @@ const resolvers = {
     user: async (parent, { username }) => {
       return User.findOne({ username }).select('-__v -password');
     },
+
+    userCourses: async () => {
+      return (
+        UserCourse.find()
+          // omit mongoose-specific __v property
+          .select('-__v')
+      )
+    },
+    userCoursesByUsername: async (parent, { username }) => {
+      return UserCourse.find({ username }).select('-__v');
+    },
+    userCoursesByCourseId: async (parent, { courseId }) => {
+      return UserCourse.find({ courseId }).select('-__v');
+    },
+    userCoursesCountByCourseId: async (parent, { courseId }) => {
+      return UserCourse.countDocuments({ courseId: courseId });
+    },
+    userCoursesCountByUsername: async (parent, { username }) => {
+      return UserCourse.countDocuments({ username: username });
+    },
+    userCoursesByUserAndCourse: async (parent, { username, courseId }) => {
+      return UserCourse.findOne({ username: username, courseId: courseId }).select('-__v');
+    },
+    getBookmarksByUsername: async (parent, { username }) => {
+      return Bookmark.find({ username: username}).select('-__v'); 
+    },
+
   },
   Mutation: {
     // add a user to the database
@@ -77,6 +106,59 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
+
+    addCourseToUser: async (parent, args, context) => {
+      if (context.user) {
+        const check = await UserCourse.findOne({ username: args.username, courseId: args.courseId });
+        if (check) {
+          if(check.visible === false) {
+            console.log('deleted');
+            const updatedCourse = await UserCourse.findOneAndUpdate(
+              { username: args.username, courseId: args.courseId },
+              { $set: { visible: true } },
+              { new: true }
+            );
+            return updatedCourse;
+          }
+          else {
+            console.log('visible');
+            return false;
+          }
+        }
+        else {
+          const userCourse = await UserCourse.create(args);
+          return userCourse;
+        }
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+
+    updateCourse: async (parent, args, context) => {
+      if (context.user) {
+        const updatedCourse = await UserCourse.findOneAndUpdate(
+          { username: args.username, courseId: args.courseId },
+          { $set: args },
+          { new: true }
+        );
+        return updatedCourse;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+    addBookmark: async (parent, args, context) => {
+      if (context.user) {
+        const bookmark = await Bookmark.create(args);
+        return bookmark;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+    removeBookmark: async (parent, args, context) => {
+      if (context.user) {
+        const bookmark = await Bookmark.findOneAndDelete({ username: args.username, vocabId: args.vocabId, wordId: args.wordId });
+        return bookmark;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+
   },
 };
 

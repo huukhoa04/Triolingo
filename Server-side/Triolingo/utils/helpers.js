@@ -48,4 +48,4 @@ const addDateSuffix = (date) => {
     return formattedTimeStamp;
   };
   
-  export default dateFormat;
+export default dateFormat;

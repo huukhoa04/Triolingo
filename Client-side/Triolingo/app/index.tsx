@@ -3,15 +3,23 @@ import { Image, Text, View } from "react-native";
 import { useEffect } from "react";
 import { Assets } from "@/constants/Assets";
 import { Root } from "@/constants/root.css";
+import auth from "@/utils/auth";
 
 export default function Index() {
   const router = useRouter();
   useEffect(() => {
+    const checkLoginStatus = async () => {
+      const loggedIn = await auth.loggedIn();
+      if (loggedIn) {
+      router.push('/(tabs)');
+      }
+      else {
+        router.push('/login');
+      }
+    };
     setTimeout(() => {
       //load back-end data
-      router.push({
-        pathname: "./login",
-      });
+      checkLoginStatus();
     }, 3000);
   }, []);
   return (

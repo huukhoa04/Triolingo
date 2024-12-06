@@ -15,12 +15,16 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from "react";
 import { ApolloProvider, InMemoryCache, ApolloClient } from '@apollo/client';
 import Login from "./login";
+import client from '@/utils/apolloClient';
 import { Root } from "@/constants/root.css";
 SplashScreen.preventAutoHideAsync();
-const client = new ApolloClient({
-  uri: 'http://192.168.0.34:5000/graphql', // Thay đổi nếu cần
-  cache: new InMemoryCache(),
-});
+
+
+
+// const client = new ApolloClient({
+//   uri: 'http://192.168.1.50:5000/graphql', // Thay đổi nếu cần
+//   cache: new InMemoryCache(),
+// });
 
 export default function RootLayout() {
   const noHeader: any = {
@@ -51,21 +55,21 @@ export default function RootLayout() {
   return (
     <ApolloProvider client={client}>
       <Stack screenOptions={{
-      headerStyle: {
-        backgroundColor: Root.primaryTheme.bgColor,
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontFamily: Root.fontStyle.semibold,
-      },
-    }}
-    >
+        headerStyle: {
+          backgroundColor: Root.primaryTheme.bgColor,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontFamily: Root.fontStyle.semibold,
+        },
+      }}
+      >
       <Stack.Screen name="index" options={noHeader}/>
       <Stack.Screen name="login" options={noHeader} />
       <Stack.Screen name="signup" options={noHeader}/>
       <Stack.Screen name="test" options={{}}/>
       <Stack.Screen name="(tabs)" options={noHeader} />
-    </Stack>
+      </Stack>
     </ApolloProvider>
     
   );

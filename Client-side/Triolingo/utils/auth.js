@@ -1,10 +1,20 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'; // AsyncStorage cho React Native
-import decode from 'jwt-decode'; // thư viện jwt-decode vẫn có thể dùng bình thường
+import { jwtDecode } from 'jwt-decode'; // thư viện jwt-decode vẫn có thể dùng bình thường
 
 class AuthService {
   // lấy dữ liệu trong token
-  getProfile() {
-    return decode(this.getToken());
+  async getProfile() {
+    try {
+      const token = await this.getToken();
+      if (token) {
+        const decoded = jwtDecode(token);
+        return decoded.data;
+      }
+      return null;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
   }
 
   // kiểm tra xem người dùng đã đăng nhập chưa
@@ -16,7 +26,7 @@ class AuthService {
   // kiểm tra xem token có hết hạn không
   isTokenExpired(token) {
     try {
-      const decoded = decode(token);
+      const decoded = jwtDecode(token);
       return decoded.exp < Date.now() / 1000;
     } catch (err) {
       return false;

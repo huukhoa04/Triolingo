@@ -23,7 +23,10 @@ export default function CharacterLesson({ quiz, handleSelected, handleCorrect } 
             <View style={styles.container}>
                 <Text style={styles.question}>{questionTitle}</Text>
                 <View style={styles.letterCard}>
-                    <Text style={styles.letter}>{letter}</Text>
+                    <Text style={{
+                        ...styles.letter,
+                        fontSize: letter.length > 4 ? 50 : 75,
+                        }}>{letter}</Text>
                     <Text style={styles.subLetter}>{subLetter}</Text>
                 </View>
                 <View style={styles.optionHolder}>
