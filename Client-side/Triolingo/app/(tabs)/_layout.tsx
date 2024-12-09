@@ -75,6 +75,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="Lesson"
+        options={{
+          headerShown: true,
+          title: 'Lesson',
+          headerTitleAlign: 'center',
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="book" color={color} />
+          ,
+        }}
+      />
+      <Tabs.Screen
         name="settings"
         options={{
           href: null,
@@ -93,7 +103,7 @@ export default function TabLayout() {
         name="(vocabulary)"
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="book" color={color} />,
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="search" color={color} />,
         }}
       />
       <Tabs.Screen
@@ -116,6 +126,16 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="(course)"
+        options={{
+          href: null,
+          headerShown: false,
+          tabBarStyle: {
+            display: 'none',
+          }
+        }}
+      />
+      <Tabs.Screen
+        name="(lesson)"
         options={{
           href: null,
           headerShown: false,
