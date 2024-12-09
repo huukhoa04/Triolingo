@@ -56,6 +56,7 @@ export default function LearningScreen() {
             setSelected(false);
             setCorrect(0);
             setCurrentQuizIndex(0);
+            setTotalCorrected(0);
             setLesson(LessonHandler.getLesson(Number(courseId)) || null);
             console.log("Screen focused, state reset");
             setLoading(false);
@@ -93,7 +94,7 @@ export default function LearningScreen() {
                     username: userData?.username,
                     courseId: Number(courseId),
                     times: Number(times) + 1,
-                    highestCorrect: Number(highestCorrect) > totalCorrected? highestCorrect : totalCorrected,
+                    highestCorrect: Number(highestCorrect) > totalCorrected? Number(highestCorrect) : totalCorrected,
                     isCompleted: true,
                     visible: true,
                 }));
@@ -120,7 +121,7 @@ export default function LearningScreen() {
                         username: userData?.username,
                         courseId: Number(courseId),
                         timeLearned: Number(times) + 1,
-                        highestCorrected: Number(highestCorrect) > totalCorrected? highestCorrect : totalCorrected,
+                        highestCorrected: Number(highestCorrect) > totalCorrected? Number(highestCorrect) : totalCorrected,
                         isCompleted: true,
                         visible: true,
                     }
@@ -170,14 +171,18 @@ export default function LearningScreen() {
         }
         const handleQuit = () => {
             if(currentQuizIndex !== lesson.numberOfQuizzes - 1){
+                console.log("data update: " + JSON.stringify({
+                    username: userData?.username,
+                    courseId: Number(courseId),
+                    timeLearned: Number(times) + 1,
+                    highestCorrected: Number(highestCorrect) > totalCorrected? Number(highestCorrect) : totalCorrected,
+                }));
                 updateCourse({
                     variables: {
                         username: userData?.username,
                         courseId: Number(courseId),
                         timeLearned: Number(times) + 1,
-                        highestCorrected: Number(highestCorrect) > totalCorrected? highestCorrect : totalCorrected,
-                        isCompleted: false,
-                        visible: true,
+                        highestCorrected: Number(highestCorrect) > totalCorrected? Number(highestCorrect) : totalCorrected,
                     }
                 });
                 router.push({
